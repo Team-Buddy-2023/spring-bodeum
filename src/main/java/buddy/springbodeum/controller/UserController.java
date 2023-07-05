@@ -1,6 +1,7 @@
 package buddy.springbodeum.controller;
 
 import buddy.springbodeum.domain.User;
+import buddy.springbodeum.repository.UserRepository;
 import buddy.springbodeum.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,11 +14,14 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
+    //회원가입
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public boolean signUp(@RequestBody Map<String, String> paramMap) {
 
@@ -27,10 +31,19 @@ public class UserController {
         String password = paramMap.get("password");
 
         //닉네임 자동생성
-
-        String nickname = "닉네임";
+        String nickname = userService.randomNickname();
 
         User newUser = new User(userId, password, nickname);
         return userService.signUp(newUser);
+    }
+
+    //아이디 중복 확인
+    @RequestMapping(value = "/validateDuplicateUserId", method = RequestMethod.POST)
+    public boolean validateDuplicateUserId(@RequestBody String userId) {
+        if(userRepository.existsByUserId(userId)) {
+            System.out.println("아이디 중복 테스트");
+            return false;   //userId가 중복이면 false return
+        }
+        else return true;
     }
 }
