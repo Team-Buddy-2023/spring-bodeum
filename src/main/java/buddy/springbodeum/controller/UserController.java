@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -23,7 +24,8 @@ public class UserController {
 
     //회원가입
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public boolean signUp(@RequestBody Map<String, String> paramMap) {
+    @ResponseBody
+    public String signUp(@RequestBody Map<String, String> paramMap) {
 
         System.out.println(paramMap);
 
@@ -34,7 +36,8 @@ public class UserController {
         String nickname = userService.randomNickname();
 
         User newUser = new User(userId, password, nickname);
-        return userService.signUp(newUser);
+        userService.signUp(newUser);
+        return "signup";
     }
 
     //아이디 중복 확인
