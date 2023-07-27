@@ -18,7 +18,7 @@ public class UserController {
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String login(Model model) {
         model.addAttribute("kakaoUrl", kakaoService.getKakaoLogin());
-
+        System.out.println(kakaoService.getKakaoLogin());
         return "index";
     }
 
