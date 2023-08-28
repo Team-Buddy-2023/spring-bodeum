@@ -3,6 +3,10 @@ package buddy.springbodeum.service.user;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 @Service
 public class KakaoService {
 
@@ -23,5 +27,19 @@ public class KakaoService {
                 + "?client_id=" + KAKAO_CLIENT_ID
                 + "&redirect_uri=" + KAKAO_REDIRECT_URL
                 + "&response_type=code";
+    }
+
+    public String getKakaoAccessToken(String code) throws IOException {
+        String accessToken = "";
+        String refreshToken = "";
+        String reqURL = "https://kauth.kakao.com/oauth/token";
+
+//        try {
+//            URL url = new URL(reqURL);
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//
+//        }
+
+        return accessToken;
     }
 }

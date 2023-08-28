@@ -4,6 +4,9 @@ import buddy.springbodeum.service.user.KakaoService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
 @RestController
 public class UserController {
 
@@ -21,8 +24,17 @@ public class UserController {
         return "index";
     }
 
+    //백에서 테스트용
     @RequestMapping(value = "/kakao/redirect", method = RequestMethod.GET)
-    public void postCreateForm(@RequestBody String code) {
+    public void callback(HttpServletRequest request) throws Exception {
+        System.out.println(request);
+    }
+
+    //실제로 인가코드는 프론트에서 전달
+    @RequestMapping(value = "/kakao/callback", method = RequestMethod.GET)
+    public void kakaoCallback(@RequestBody String code) throws IOException {
+        String accessToken = kakaoService.getKakaoAccessToken(code);
+
 
     }
 }

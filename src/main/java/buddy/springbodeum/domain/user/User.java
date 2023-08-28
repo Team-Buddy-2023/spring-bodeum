@@ -1,4 +1,4 @@
-package buddy.springbodeum.domain;
+package buddy.springbodeum.domain.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,17 +17,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userId;
-    private String password;
+    private String email;
     private String nickname;
 
     public User() {
 
     }
 
-    public User(String userId, String password, String nickname) {
-        this.userId = userId;
-        this.password = password;
+    public User(String email, String nickname) {
+        this.email = email;
         this.nickname = nickname;
     }
 }
