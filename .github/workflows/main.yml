@@ -27,9 +27,9 @@ jobs:
 
       - name: Deploy to EC2
         env:
-          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-          KAKAO_REDIRECT_URL: ${{ secrets.KAKAO_REDIRECT_URL }}
+          kakao.client.id: ${{ secrets.KAKAO_CLIENT_ID }}
+          kakao.client.secret: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          kakao.redirect.url: ${{ secrets.KAKAO_REDIRECT_URL }}
         run: |
           # Use AWS CLI to copy JAR file to EC2 instance and restart service
           aws s3 cp build/libs/myapp.jar s3://my-bucket/
