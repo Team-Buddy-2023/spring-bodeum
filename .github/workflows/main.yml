@@ -31,6 +31,8 @@ jobs:
           kakao.client.id: ${{ secrets.KAKAO_CLIENT_ID }}
           kakao.client.secret: ${{ secrets.KAKAO_CLIENT_SECRET }}
           kakao.redirect.url: ${{ secrets.KAKAO_REDIRECT_URL }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           # Use AWS CLI to copy JAR file to EC2 instance and restart service
           aws s3 cp build/libs/myapp.jar s3://my-bucket/
