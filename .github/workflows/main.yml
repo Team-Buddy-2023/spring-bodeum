@@ -1,0 +1,33 @@
+name: Spring Boot CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+    
+    - name: Build the Spring Boot app
+      run: ./mvnw clean package -DskipTests=true
+    
+    - name: Deploy to EC2
+      env:
+        KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+        KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+        KAKAO_REDIRECT_URL: ${{ secrets.KAKAO_REDIRECT_URL }}
+      run: |
+        # Use AWS CLI to copy JAR file to EC2 instance and restart service
+        aws s3 cp target/myapp.jar s3://my-bucket/
+        ssh ec2-user@ec2-instance-ip "sudo systemctl restart myapp.service"
