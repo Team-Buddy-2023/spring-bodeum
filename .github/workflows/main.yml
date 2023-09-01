@@ -69,8 +69,8 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws deploy create-deployment \
-          --application-name bodeumServer \
-          --deployment-group-name bodeum \
+          --application-name bodeum \
+          --deployment-group-name bodeum-application \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=kysbucket,bundleType=zip,key=kysBodeum.zip \
           --region ap-northeast-2
