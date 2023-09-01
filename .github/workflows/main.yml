@@ -70,7 +70,7 @@ jobs:
         run: |
           aws deploy create-deployment \
           --application-name bodeum \
-          --deployment-group-name bodeum-ec2-deploy \
+          --deployment-group-name bodeum-group \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=kysbucket,bundleType=zip,key=kysBodeum.zip \
           --region ap-northeast-2
