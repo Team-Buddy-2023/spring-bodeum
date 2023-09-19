@@ -1,6 +1,6 @@
-package buddy.springbodeum.service.user;
+package buddy.springbodeum.user.service;
 
-import buddy.springbodeum.repository.user.UserRepository;
+import buddy.springbodeum.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

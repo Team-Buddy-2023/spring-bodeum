@@ -1,4 +1,4 @@
-package buddy.springbodeum.service.user;
+package buddy.springbodeum.user.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

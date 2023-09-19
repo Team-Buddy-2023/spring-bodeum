@@ -1,6 +1,6 @@
-package buddy.springbodeum.controller.user;
+package buddy.springbodeum.user.controller;
 
-import buddy.springbodeum.service.user.KakaoService;
+import buddy.springbodeum.user.service.KakaoService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
