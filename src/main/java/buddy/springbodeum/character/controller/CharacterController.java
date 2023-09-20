@@ -1,7 +1,7 @@
 package buddy.springbodeum.character.controller;
 
+import buddy.springbodeum.character.domain.Character;
 import buddy.springbodeum.character.service.CharacterService;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +22,4 @@ public class CharacterController {
     public List<Character> getAllCharacters() {
         return characterService.getAllCharacters();
     }
-
-
 }

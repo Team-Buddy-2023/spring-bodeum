@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity(name = "character")
+@Entity(name = "characters")
 @Getter
 @Setter
 public class Character {
@@ -21,8 +21,7 @@ public class Character {
     private String description;
     private String imageURL;
 
-    public Character(Long id, String name, String description, String imageURL) {
-        this.id = id;
+    public Character(String name, String description, String imageURL) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;

@@ -1,10 +1,11 @@
 package buddy.springbodeum.character.repository;
 
+import buddy.springbodeum.character.domain.Character;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface CharacterRepository extends JpaRepository<Character, Long> {
-    @Override
     List<Character> findAll();
+    void save(List<Character> characters);
 }
