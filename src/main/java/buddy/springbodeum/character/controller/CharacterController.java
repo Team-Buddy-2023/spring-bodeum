@@ -2,6 +2,8 @@ package buddy.springbodeum.character.controller;
 
 import buddy.springbodeum.character.domain.Character;
 import buddy.springbodeum.character.service.CharacterService;
+import jdk.swing.interop.SwingInterOpUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +20,12 @@ public class CharacterController {
     }
 
     // 메인화면 첫 로딩 시 캐릭터 정보를 가져옴
-    @RequestMapping(value = "/characters", method = RequestMethod.GET)
+//    @RequestMapping(value = "/characters", method = RequestMethod.GET)
+    @GetMapping(value = "/characters")
     public List<Character> getAllCharacters() {
+        System.out.println("test");
+        characterService.createCharacters();
+        System.out.println("test1");
         return characterService.getAllCharacters();
     }
 }

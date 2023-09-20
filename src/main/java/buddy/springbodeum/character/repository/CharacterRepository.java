@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CharacterRepository extends JpaRepository<Character, Long> {
     List<Character> findAll();
-    void save(List<Character> characters);
+    Character save(Character characters);
 }
