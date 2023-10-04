@@ -22,4 +22,12 @@ public class ChatController {
         String question = request.get("question");
         return chatService.createAnswer(question);
     }
+
+    @PostMapping(value = "/chat/share")
+    public void shareChatAnswer(@RequestBody Map<String, String> request) {
+        String characterId = request.get("characterId");
+        String userId = request.get("userId");
+
+
+    }
 }
