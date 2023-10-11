@@ -2,10 +2,7 @@ package buddy.springbodeum.character.controller;
 
 import buddy.springbodeum.character.domain.Character;
 import buddy.springbodeum.character.service.CharacterService;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,5 +24,10 @@ public class CharacterController {
         characterService.createCharacters();
         System.out.println("test1");
         return characterService.getAllCharacters();
+    }
+
+    //캐릭터 저장(서버상에서)
+    public void saveCharacters() {
+
     }
 }

@@ -20,11 +20,13 @@ public class Character {
     private String name;
     private String description;
     private String imageURL;
+    private String firstQuestion;
 
-    public Character(String name, String description, String imageURL) {
+    public Character(String name, String description, String imageURL, String firstQuestion) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
+        this.firstQuestion = firstQuestion;
     }
 
     public Character() {
