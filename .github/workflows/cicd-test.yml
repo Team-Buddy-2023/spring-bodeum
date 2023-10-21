@@ -7,9 +7,9 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  AWS_S3_BUCKET: bodeumawsbucket
-  AWS_CODE_DEPLOY_APPLICATION: cicd-test-CD
-  AWS_CODE_DEPLOY_GROUP: cicd-test-CD-group
+  AWS_S3_BUCKET: bodeumbucket
+  AWS_CODE_DEPLOY_APPLICATION: bodeum-application
+  AWS_CODE_DEPLOY_GROUP: bodeum-group
 
 jobs:
   build-with-gradle:
