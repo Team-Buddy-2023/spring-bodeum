@@ -8,7 +8,7 @@ public class SpringBodeumApplication {
 
 	public static void main(String[] args) {
 		System.out.println("HELLO WORLD");
-//		SpringApplication.run(SpringBodeumApplication.class, args);
+		SpringApplication.run(SpringBodeumApplication.class, args);
 	}
 
 }
