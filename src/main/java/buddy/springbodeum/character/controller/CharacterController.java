@@ -18,7 +18,7 @@ public class CharacterController {
 
     // 메인화면 첫 로딩 시 캐릭터 정보를 가져옴
 //    @RequestMapping(value = "/characters", method = RequestMethod.GET)
-    @GetMapping(value = "15.165.177.182:8080/characters")
+    @GetMapping(value = "/characters")
     public List<Character> getAllCharacters() {
         System.out.println("test");
         characterService.createCharacters();
