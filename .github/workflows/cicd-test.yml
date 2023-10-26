@@ -1,4 +1,4 @@
-name: CICD Test
+name: Spring Boot & Gradle CI/CD
 run-name: Running
 on:
   push:
