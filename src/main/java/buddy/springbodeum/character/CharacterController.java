@@ -1,13 +1,13 @@
-package buddy.springbodeum.character.controller;
+package buddy.springbodeum.character;
 
-import buddy.springbodeum.character.domain.Character;
-import buddy.springbodeum.character.service.CharacterService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class CharacterController {
 
     private final CharacterService characterService;
@@ -20,9 +20,7 @@ public class CharacterController {
 //    @RequestMapping(value = "/characters", method = RequestMethod.GET)
     @GetMapping(value = "/characters")
     public List<Character> getAllCharacters() {
-        System.out.println("test");
         characterService.createCharacters();
-        System.out.println("test1");
         return characterService.getAllCharacters();
     }
 
