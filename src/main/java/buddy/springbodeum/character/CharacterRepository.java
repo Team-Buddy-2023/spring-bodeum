@@ -7,4 +7,7 @@ import java.util.List;
 public interface CharacterRepository extends JpaRepository<Character, Long> {
     List<Character> findAll();
     Character save(Character characters);
+
+    @Override
+    void deleteAllInBatch();
 }
