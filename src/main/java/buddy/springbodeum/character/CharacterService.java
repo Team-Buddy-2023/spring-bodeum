@@ -1,11 +1,8 @@
-package buddy.springbodeum.character.service;
+package buddy.springbodeum.character;
 
-import buddy.springbodeum.character.domain.Character;
-import buddy.springbodeum.character.repository.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

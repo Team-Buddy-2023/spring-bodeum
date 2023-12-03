@@ -1,4 +1,4 @@
-package buddy.springbodeum.chat.controller;
+package buddy.springbodeum.chat;
 
 import buddy.springbodeum.chat.service.ChatService;
 import org.springframework.web.bind.annotation.PathVariable;

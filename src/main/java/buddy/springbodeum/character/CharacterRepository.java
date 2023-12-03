@@ -1,6 +1,5 @@
-package buddy.springbodeum.character.repository;
+package buddy.springbodeum.character;
 
-import buddy.springbodeum.character.domain.Character;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

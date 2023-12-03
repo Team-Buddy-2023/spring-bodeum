@@ -1,4 +1,4 @@
-package buddy.springbodeum.user.domain;
+package buddy.springbodeum.user;
 
 import lombok.Getter;
 import lombok.Setter;

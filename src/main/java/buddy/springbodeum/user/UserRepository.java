@@ -1,6 +1,6 @@
-package buddy.springbodeum.user.repository;
+package buddy.springbodeum.user;
 
-import buddy.springbodeum.user.domain.User;
+import buddy.springbodeum.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
