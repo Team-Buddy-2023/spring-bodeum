@@ -10,7 +10,6 @@ import java.util.List;
 
 @Service
 public class CharacterService {
-
     private final CharacterRepository characterRepository;
 
     @Autowired

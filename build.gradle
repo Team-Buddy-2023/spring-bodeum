@@ -25,6 +25,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
+	implementation 'com.google.code.gson:gson:2.8.9'
 }
 
 tasks.named('test') {
