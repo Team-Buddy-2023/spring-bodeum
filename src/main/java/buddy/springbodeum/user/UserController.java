@@ -1,19 +1,27 @@
-package buddy.springbodeum.user.controller;
+package buddy.springbodeum.user;
 
 import buddy.springbodeum.user.service.KakaoService;
+import buddy.springbodeum.user.service.UserService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UserController {
 
     private final KakaoService kakaoService;
+    private final UserService userService;
 
-    public UserController(KakaoService kakaoService) {
+    public UserController(KakaoService kakaoService, UserService userService) {
         this.kakaoService = kakaoService;
+        this.userService = userService;
     }
 
     @RequestMapping(value="/kakao/url", method= RequestMethod.GET)
@@ -40,9 +48,39 @@ public class UserController {
 
     }
 
-    //실제로 인가코드는 프론트에서 전달
-    @RequestMapping(value = "/kakao/callback", method = RequestMethod.GET)
-    public void kakaoCallback(@RequestBody String code) throws IOException {
-        String accessToken = kakaoService.getKakaoAccessToken(code);
+    @RequestMapping(value="/kakao/login", method= RequestMethod.GET)
+    public String kakaoLogin() {
+        System.out.println("test");
+        String kakaoLoginURL = kakaoService.getKakaoLogin();
+        System.out.println(kakaoLoginURL);
+        return kakaoLoginURL;
+    }
+
+    @RequestMapping(value = "/oauth/callback/kakao", method = RequestMethod.GET)
+    public User kakaoCallback(@RequestParam("code") String code) {
+        System.out.println("test2");
+        // Kakao로부터 받은 인가코드 처리
+        // 이 코드에서는 간단히 받은 코드를 출력하도록 했습니다.
+        System.out.println("인가코드: " + code);
+
+        String accessToken = kakaoService.getAccessToken(code);
+        HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
+        System.out.println("닉네임 : " + userInfo.get("nickname"));
+        System.out.println("이메일 : " + userInfo.get("email"));
+        return userService.kakaoLogin(userInfo.get("nickname"), userInfo.get("email"));
+    }
+
+    @RequestMapping(value="/kakao/logout")
+    public String logout(HttpSession session) {
+        String access_Token = (String)session.getAttribute("access_Token");
+
+        if(access_Token != null && !"".equals(access_Token)){
+            kakaoService.kakaoLogout(access_Token);
+            session.removeAttribute("access_Token");
+            session.removeAttribute("userId");
+        }else{
+            System.out.println("access_Token is null");
+        }
+        return "redirect:/";
     }
 }

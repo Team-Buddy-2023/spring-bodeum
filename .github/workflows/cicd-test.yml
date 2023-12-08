@@ -37,6 +37,9 @@ jobs:
           touch ./application.properties
           
           echo "${{ secrets.DATABASE_PROPERTIES }}" >> ./application.properties
+          echo "kakao.client.id=${{ secrets.KAKAO_CLIENT_ID }}" >> ./application.properties
+          echo "kakao.client.secret=${{ secrets.KAKAO_CLIENT_SECRET }}" >> ./application.properties
+          echo "kakao.redirect.url=${{ secrets.KAKAO_REDIRECT_URL }}" >> ./application.properties
         shell: bash
 
       - name: Setup MySQL
