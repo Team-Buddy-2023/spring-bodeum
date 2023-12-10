@@ -1,6 +1,6 @@
 package buddy.springbodeum.chat.service;
 
-import buddy.springbodeum.chat.repository.ChatRepository;
+import buddy.springbodeum.chat.ChatRepository;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,6 +1,6 @@
-package buddy.springbodeum.chat.domain;
+package buddy.springbodeum.chat;
 
-import buddy.springbodeum.user.domain.User;
+import buddy.springbodeum.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
