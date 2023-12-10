@@ -1,12 +1,11 @@
 package buddy.springbodeum.character;
 
+import buddy.springbodeum.chat.data.Chat;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "characters")
 @Getter
@@ -21,6 +20,9 @@ public class Character {
     private String description;
     private String imageURL;
     private String firstQuestion;
+
+//    @OneToMany(mappedBy = "character")
+//    private List<Chat> chat;
 
     public Character(String name, String description, String imageURL, String firstQuestion) {
         this.name = name;

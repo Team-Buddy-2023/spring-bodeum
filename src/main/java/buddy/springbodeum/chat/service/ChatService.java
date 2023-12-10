@@ -1,6 +1,7 @@
 package buddy.springbodeum.chat.service;
 
 import buddy.springbodeum.chat.ChatRepository;
+import buddy.springbodeum.chat.data.Chat;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +15,7 @@ public class ChatService {
         this.gptService = gptService;
     }
 
-    public String createAnswer(Long characterId, String question) {
-        return gptService.send(characterId, question);
+    public void createChat(Chat chat) {
+        chatRepository.save(chat);
     }
 }

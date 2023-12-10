@@ -1,5 +1,6 @@
 package buddy.springbodeum.chat.data;
 
+import buddy.springbodeum.character.Character;
 import buddy.springbodeum.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,15 +18,23 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private User user;
-
-    @ElementCollection
-    private List<String> question;
-
-    @ElementCollection
-    private List<String> answer;
-
+    private String question;
+    private String answer;
     private LocalDateTime dateTime;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "character_id")
+    private Character character;
+
+    public Chat(String question, String answer, LocalDateTime dateTime, User user, Character character) {
+        this.question = question;
+        this.answer = answer;
+        this.dateTime = dateTime;
+        this.user = user;
+        this.character = character;
+    }
 }
