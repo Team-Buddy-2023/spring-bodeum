@@ -4,14 +4,9 @@ import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class UserController {
@@ -24,29 +19,29 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value="/kakao/url", method= RequestMethod.GET)
-    public String login(Model model) {
-        model.addAttribute("kakaoUrl", kakaoService.getKakaoLogin());
-        System.out.println(kakaoService.getKakaoLogin());
-        return "index";
-    }
-
-    //백에서 테스트용
-    @RequestMapping(value = "/kakao/redirect", method = RequestMethod.GET)
-    public void callback(HttpServletRequest request) throws Exception {
-        System.out.println(request);
-
-        String remoteAddr = request.getRemoteAddr(); // 클라이언트 IP 주소
-        String method = request.getMethod(); // HTTP 요청 메서드 (GET, POST 등)
-        String uri = request.getRequestURI(); // 요청 URI
-        String queryString = request.getQueryString(); // 쿼리 스트링
-
-        System.out.println("Remote Address: " + remoteAddr);
-        System.out.println("HTTP Method: " + method);
-        System.out.println("Request URI: " + uri);
-        System.out.println("Query String: " + queryString);
-
-    }
+//    @RequestMapping(value="/kakao/url", method= RequestMethod.GET)
+//    public String login(Model model) {
+//        model.addAttribute("kakaoUrl", kakaoService.getKakaoLogin());
+//        System.out.println(kakaoService.getKakaoLogin());
+//        return "index";
+//    }
+//
+//    //백에서 테스트용
+//    @RequestMapping(value = "/kakao/redirect", method = RequestMethod.GET)
+//    public void callback(HttpServletRequest request) throws Exception {
+//        System.out.println(request);
+//
+//        String remoteAddr = request.getRemoteAddr(); // 클라이언트 IP 주소
+//        String method = request.getMethod(); // HTTP 요청 메서드 (GET, POST 등)
+//        String uri = request.getRequestURI(); // 요청 URI
+//        String queryString = request.getQueryString(); // 쿼리 스트링
+//
+//        System.out.println("Remote Address: " + remoteAddr);
+//        System.out.println("HTTP Method: " + method);
+//        System.out.println("Request URI: " + uri);
+//        System.out.println("Query String: " + queryString);
+//
+//    }
 
     @RequestMapping(value="/kakao/login", method= RequestMethod.GET)
     public String kakaoLogin() {
