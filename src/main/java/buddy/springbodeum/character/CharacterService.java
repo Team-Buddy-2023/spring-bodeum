@@ -41,4 +41,8 @@ public class CharacterService {
         characterRepository.deleteAllInBatch();
     }
 
+    public Character getCharacter(Long characterId) {
+        return characterRepository.findByCharacterId(characterId);
+    }
+
 }

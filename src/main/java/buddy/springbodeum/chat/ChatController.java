@@ -1,9 +1,9 @@
 package buddy.springbodeum.chat;
 
 import buddy.springbodeum.chat.service.ChatService;
+import buddy.springbodeum.chat.service.GPTService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,15 +26,16 @@ import java.util.Map;
 public class ChatController {
 
     private final ChatService chatService;
+    private final GPTService gptService;
 
-    public ChatController(ChatService chatService) {
+    public ChatController(ChatService chatService, GPTService gptService) {
         this.chatService = chatService;
+        this.gptService = gptService;
     }
 
     @PostMapping(value = "/chat/{characterId}")
-    public String createChatAnswer(@PathVariable Long characterId, @RequestBody Map<String, String> request) {
-        String question = request.get("question");
-        return chatService.createAnswer(characterId, question);
+    public String createChatAnswer(@PathVariable Long characterId, @RequestBody String message) {
+        return gptService.createAnswer(message, characterId);
     }
 
     @PostMapping(value = "/chat/share")
@@ -47,51 +48,6 @@ public class ChatController {
         for (Map<String, String> entry : data) {
             String question = entry.get("question");
             String answer = entry.get("answer");
-
-
         }
-
-
     }
-
-//    @Value("${chatgpt.api-key}")
-//    private String key;
-//    @PostMapping("/chat/send")
-//    public ResponseEntity send(@RequestBody String message) {
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        URI uri = UriComponentsBuilder
-//                .fromUriString("https://api.openai.com/v1/chat/completions")
-//                .build()
-//                .encode()
-//                .toUri();
-//
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add("Authorization", "Bearer " + key);
-//
-//        ArrayList<Message> list = new ArrayList<>();
-//
-//        list.add(new Message("system","[Role] : I want you to act as a Philosophy.\n[Results] : Answer my + \"" + message + "\" in Korean in 200 characters or less with a metaphorical tone. Be sure to review and make suggestions to make sure your tone isn't awkward. ##Do not remind me what I asked you for## 그리고 대답은 친구처럼 반말로 대답해줘"));
-//
-//        Body body = new Body("gpt-3.5-turbo", list);
-//
-//        RequestEntity<Body> httpEntity = new RequestEntity<>(body, httpHeaders, HttpMethod.POST, uri);
-//
-//        return restTemplate.exchange(httpEntity, String.class);
-//    }
-//
-//    @AllArgsConstructor
-//    @Data
-//    static class Body {
-//        String model;
-//        List<Message> messages;
-//    }
-//
-//    @AllArgsConstructor
-//    @Data
-//    static class Message {
-//        String role;
-//        String content;
-//    }
 }
