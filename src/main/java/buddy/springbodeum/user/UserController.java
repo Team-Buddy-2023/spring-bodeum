@@ -1,5 +1,6 @@
 package buddy.springbodeum.user;
 
+import buddy.springbodeum.user.data.User;
 import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
 import org.springframework.ui.Model;
@@ -79,3 +80,4 @@ public class UserController {
         return "redirect:/";
     }
 }
+
