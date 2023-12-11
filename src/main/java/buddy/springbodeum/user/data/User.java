@@ -1,4 +1,4 @@
-package buddy.springbodeum.user;
+package buddy.springbodeum.user.data;
 
 import buddy.springbodeum.chat.data.Chat;
 import lombok.*;
@@ -17,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     private String nickname;
     private String email;

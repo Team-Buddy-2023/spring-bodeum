@@ -1,13 +1,12 @@
 package buddy.springbodeum.chat.data;
 
 import buddy.springbodeum.character.Character;
-import buddy.springbodeum.user.User;
+import buddy.springbodeum.user.data.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity(name = "chat")
 @Getter
@@ -21,6 +20,7 @@ public class Chat {
     private String question;
     private String answer;
     private LocalDateTime dateTime;
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -36,5 +36,9 @@ public class Chat {
         this.dateTime = dateTime;
         this.user = user;
         this.character = character;
+    }
+
+    public Chat() {
+
     }
 }

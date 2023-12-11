@@ -1,8 +1,7 @@
 package buddy.springbodeum.user.service;
 
-import buddy.springbodeum.user.User;
+import buddy.springbodeum.user.data.User;
 import buddy.springbodeum.user.UserRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 

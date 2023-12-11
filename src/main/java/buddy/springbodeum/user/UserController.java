@@ -1,10 +1,10 @@
 package buddy.springbodeum.user;
 
+import buddy.springbodeum.user.data.User;
 import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
@@ -79,3 +79,4 @@ public class UserController {
         return "redirect:/";
     }
 }
+
