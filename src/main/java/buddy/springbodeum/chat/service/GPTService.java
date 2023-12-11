@@ -27,29 +27,30 @@ public class GPTService {
     public String createAnswer(String message, Long characterId) {
         String description = characterService.getCharacter(characterId).getDescription();
         String content = description + message + " 그리고 대답은 친구처럼 반말로 대답해줘";
-        return send(content);
+//        return send(content);
+        return "";
     }
 
-    @Value("${chatgpt.api-key}")
-    private String key;
-    public String send(String content) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://api.openai.com/v1/chat/completions")
-                .build()
-                .encode()
-                .toUri();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + key);
-        ArrayList<Message> list = new ArrayList<>();
-        list.add(new Message("system",content));
-        Body body = new Body("gpt-3.5-turbo", list);
-        RequestEntity<Body> httpEntity = new RequestEntity<>(body, httpHeaders, HttpMethod.POST, uri);
-
-        return restTemplate.exchange(httpEntity, String.class).toString();
-    }
+//    @Value("${chatgpt.api-key}")
+//    private String key;
+//    public String send(String content) {
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        URI uri = UriComponentsBuilder
+//                .fromUriString("https://api.openai.com/v1/chat/completions")
+//                .build()
+//                .encode()
+//                .toUri();
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add("Authorization", "Bearer " + key);
+//        ArrayList<Message> list = new ArrayList<>();
+//        list.add(new Message("system",content));
+//        Body body = new Body("gpt-3.5-turbo", list);
+//        RequestEntity<Body> httpEntity = new RequestEntity<>(body, httpHeaders, HttpMethod.POST, uri);
+//
+//        return restTemplate.exchange(httpEntity, String.class).toString();
+//    }
 
     @AllArgsConstructor
     @Data
