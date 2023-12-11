@@ -38,4 +38,3 @@ public class CharacterController {
         return "create characters";
     }
 }
-

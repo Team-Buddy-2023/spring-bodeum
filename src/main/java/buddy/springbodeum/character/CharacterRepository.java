@@ -10,6 +10,4 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
 
     @Override
     void deleteAllInBatch();
-
-    Character findByCharacterId(Long characterId);
 }
