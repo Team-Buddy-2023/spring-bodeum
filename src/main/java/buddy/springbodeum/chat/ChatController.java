@@ -45,7 +45,7 @@ public class ChatController {
         for (Map.Entry<String, String> entry : questionAndAnswer.entrySet()) {
             String question = entry.getKey();
             String answer = entry.getValue();
-            Chat chat = new Chat(question, answer, dateTime, userRepository.findByUserId(userId), characterRepository.findByCharacterId(characterId));
+            Chat chat = new Chat(question, answer, dateTime, userRepository.findByUserId(userId), characterRepository.findCharacterById(characterId));
             chatService.createChat(chat);
         }
 
