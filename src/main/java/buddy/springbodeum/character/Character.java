@@ -14,21 +14,17 @@ public class Character {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long characterId;
+    private Long id;
 
     private String name;
     private String description;
-    private String imageURL;
-    private String firstQuestion;
 
     @OneToMany(mappedBy = "character")
     private List<Chat> chat;
 
-    public Character(String name, String description, String imageURL, String firstQuestion) {
+    public Character(String name, String description) {
         this.name = name;
         this.description = description;
-        this.imageURL = imageURL;
-        this.firstQuestion = firstQuestion;
     }
 
     public Character() {
