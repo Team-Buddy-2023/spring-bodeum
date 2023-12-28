@@ -19,13 +19,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    private Long kakaoId;
     private String nickname;
     private String email;
 
     @OneToMany(mappedBy = "user")
     private List<Chat> chat;
 
-    public User(String nickname, String email) {
+    public User(Long kakaoId, String nickname, String email) {
+        this.kakaoId = kakaoId;
         this.nickname = nickname;
         this.email = email;
     }

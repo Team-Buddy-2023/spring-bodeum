@@ -1,7 +1,10 @@
 package buddy.springbodeum.user.service;
 
+import buddy.springbodeum.user.UserRepository;
+import buddy.springbodeum.user.data.*;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -28,6 +31,14 @@ public class KakaoService {
     private String KAKAO_REDIRECT_URL;
 
     private final static String KAKAO_AUTH_URI = "https://kauth.kakao.com";
+
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public KakaoService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
+        this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     public String getKakaoLogin() {
         return KAKAO_AUTH_URI + "/oauth/authorize"
@@ -123,12 +134,14 @@ public class KakaoService {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
+            String id = element.getAsJsonObject().getAsJsonPrimitive("id").getAsString();
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
 
+            userInfo.put("kakaoId", id);
             userInfo.put("nickname", nickname);
             userInfo.put("email", email);
 
@@ -137,6 +150,19 @@ public class KakaoService {
         }
         return userInfo;
     }
+
+    public UserLoginResponseDTO kakaoLogin(HashMap<String, Object> userInfo) {
+        UserSignupRequestDTO userSignupRequestDTO = getUserKakaoSignupRequestDTO(userInfo);
+
+        String token = jwtTokenProvider.createToken(userSignupRequestDTO.getKakaoId());
+        return new UserLoginResponseDTO(HttpStatus.OK, token, userSignupRequestDTO.getKakaoId());
+    }
+
+    private UserSignupRequestDTO getUserKakaoSignupRequestDTO(HashMap<String, Object> userInfo){
+        Long kakaoIdLong = Long.parseLong((String) userInfo.get("kakaoId"));
+        return new UserSignupRequestDTO(kakaoIdLong,userInfo.get("nickname").toString(),userInfo.get("email").toString());
+    }
+
 
     public void kakaoLogout(String accessToken) {
         String reqURL = "https://kapi.kakao.com/v1/user/logout";
