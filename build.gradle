@@ -26,6 +26,8 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
 	implementation 'com.google.code.gson:gson:2.8.9'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {

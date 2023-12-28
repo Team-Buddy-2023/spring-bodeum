@@ -1,6 +1,8 @@
 package buddy.springbodeum.user;
 
+import buddy.springbodeum.user.data.BaseResponse;
 import buddy.springbodeum.user.data.User;
+import buddy.springbodeum.user.data.UserLoginResponseDTO;
 import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -52,17 +54,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/oauth/callback/kakao", method = RequestMethod.GET)
-    public User kakaoCallback(@RequestParam("code") String code) {
-        System.out.println("test2");
-        // Kakao로부터 받은 인가코드 처리
-        // 이 코드에서는 간단히 받은 코드를 출력하도록 했습니다.
+    public BaseResponse<UserLoginResponseDTO> kakaoCallback(@RequestParam("code") String code) {
         System.out.println("인가코드: " + code);
 
         String accessToken = kakaoService.getAccessToken(code);
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
-        System.out.println("닉네임 : " + userInfo.get("nickname"));
-        System.out.println("이메일 : " + userInfo.get("email"));
-        return userService.kakaoLogin(userInfo.get("nickname"), userInfo.get("email"));
+
+        userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("nickname"), (String) userInfo.get("email")); //회원가입
+
+        UserLoginResponseDTO userLoginResponseDTO = kakaoService.kakaoLogin(userInfo);
+        return new BaseResponse<>(userLoginResponseDTO.getStatus(), "요청 성공했습니다.", userLoginResponseDTO);
     }
 
     @RequestMapping(value="/kakao/logout")
