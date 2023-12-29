@@ -60,9 +60,9 @@ public class UserController {
         String accessToken = kakaoService.getAccessToken(code);
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
 
-        userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("nickname"), (String) userInfo.get("email")); //회원가입
+        User user = userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("nickname"), (String) userInfo.get("email")); //회원가입
 
-        UserLoginResponseDTO userLoginResponseDTO = kakaoService.kakaoLogin(userInfo);
+        UserLoginResponseDTO userLoginResponseDTO = kakaoService.kakaoLogin(user);
         return new BaseResponse<>(userLoginResponseDTO.getStatus(), "요청 성공했습니다.", userLoginResponseDTO);
     }
 
@@ -79,4 +79,6 @@ public class UserController {
         }
         return "redirect:/";
     }
+
+
 }

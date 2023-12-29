@@ -14,13 +14,14 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void kakaoLogin(String kakaoId, String nickname, String email) {
+    public User kakaoLogin(String kakaoId, String nickname, String email) {
         // Long 타입으로 변환
         Long kakaoIdLong = Long.parseLong(kakaoId);
         User user = new User(kakaoIdLong, nickname, email);
         if(validateDuplicateUser(user)) {
             userRepository.save(user);
         }
+        return userRepository.findByKakaoId(kakaoIdLong);
     }
 
 

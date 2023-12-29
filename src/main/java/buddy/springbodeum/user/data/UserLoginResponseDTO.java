@@ -9,5 +9,5 @@ import org.springframework.http.HttpStatus;
 public class UserLoginResponseDTO {
     private HttpStatus status;
     private String token;
-    private Long kakaoId;
+    private Long userId;
 }

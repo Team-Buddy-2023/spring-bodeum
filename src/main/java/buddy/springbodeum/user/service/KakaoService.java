@@ -151,18 +151,11 @@ public class KakaoService {
         return userInfo;
     }
 
-    public UserLoginResponseDTO kakaoLogin(HashMap<String, Object> userInfo) {
-        UserSignupRequestDTO userSignupRequestDTO = getUserKakaoSignupRequestDTO(userInfo);
-
-        String token = jwtTokenProvider.createToken(userSignupRequestDTO.getKakaoId());
-        return new UserLoginResponseDTO(HttpStatus.OK, token, userSignupRequestDTO.getKakaoId());
+    public UserLoginResponseDTO kakaoLogin(User user) {
+        Long userId = user.getUserId();
+        String token = jwtTokenProvider.createToken(userId);
+        return new UserLoginResponseDTO(HttpStatus.OK, token, userId);
     }
-
-    private UserSignupRequestDTO getUserKakaoSignupRequestDTO(HashMap<String, Object> userInfo){
-        Long kakaoIdLong = Long.parseLong((String) userInfo.get("kakaoId"));
-        return new UserSignupRequestDTO(kakaoIdLong,userInfo.get("nickname").toString(),userInfo.get("email").toString());
-    }
-
 
     public void kakaoLogout(String accessToken) {
         String reqURL = "https://kapi.kakao.com/v1/user/logout";
