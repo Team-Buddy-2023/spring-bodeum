@@ -2,6 +2,8 @@ package buddy.springbodeum.chat.service;
 
 import buddy.springbodeum.character.Character;
 import buddy.springbodeum.character.CharacterService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +32,6 @@ public class GPTService {
         Character character = characterService.getCharacter(characterId);
 
         if (character == null) {
-            return "캐릭터를 찾을 수 없습니다.";
         }
 
         String description = character.getDescription();
@@ -41,7 +42,39 @@ public class GPTService {
         }
 
         String content = description + message + " 그리고 대답은 친구처럼 반말로 대답해줘";
-        return send(content);
+
+        String openAIResponse = send(content);
+        String jsonOnly = openAIResponse.substring(openAIResponse.indexOf("{"));
+        return extractAssistantResponse(jsonOnly);
+    }
+
+    private String extractAssistantResponse(String openAIResponse) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            // JSON 문자열을 JSON 트리로 파싱합니다.
+            JsonNode rootNode = objectMapper.readTree(openAIResponse);
+
+            // "choices" 배열을 얻습니다.
+            JsonNode choicesNode = rootNode.get("choices");
+
+            // "choices" 배열이 존재하고 배열의 크기가 1 이상인지 확인합니다.
+            if (choicesNode != null && choicesNode.isArray() && choicesNode.size() > 0) {
+                // "choices" 배열에서 첫 번째 선택지를 얻습니다.
+                JsonNode firstChoice = choicesNode.get(0);
+
+                // "message" 객체에서 "content" 값을 가져옵니다.
+                JsonNode contentNode = firstChoice.path("message").path("content");
+
+                // "content" 값을 문자열로 반환합니다.
+                return contentNode.asText();
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // 예외 처리를 위해 예외를 출력합니다.
+        }
+
+        // 추출에 실패한 경우 null 또는 적절한 기본값을 반환합니다.
+        return null;
     }
 
     @Value("${chatgpt.api-key}")
