@@ -1,5 +1,6 @@
 package buddy.springbodeum.character;
 
+import buddy.springbodeum.character.dto.CharacterResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
