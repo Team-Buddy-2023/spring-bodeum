@@ -1,4 +1,4 @@
-package buddy.springbodeum.user.data;
+package buddy.springbodeum.user.base;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

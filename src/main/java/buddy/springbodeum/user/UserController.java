@@ -1,10 +1,13 @@
 package buddy.springbodeum.user;
 
-import buddy.springbodeum.user.data.BaseResponse;
+import buddy.springbodeum.user.base.BaseResponse;
 import buddy.springbodeum.user.data.User;
-import buddy.springbodeum.user.data.UserLoginResponseDTO;
+import buddy.springbodeum.user.dto.MyPageResponseDTO;
+import buddy.springbodeum.user.dto.UserLoginResponseDTO;
 import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -80,5 +83,16 @@ public class UserController {
         return "redirect:/";
     }
 
+//    @RequestMapping(value="/user/{userId}", method= RequestMethod.GET)
+//    public MyPageResponseDTO mypage() {
+//
+//        return ;
+//    }
 
+    @RequestMapping(value="/user/delete/{userId}", method= RequestMethod.DELETE)
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        String responseMessage = userId + " 사용자가 성공적으로 삭제되었습니다.";
+        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
+    }
 }
