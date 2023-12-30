@@ -89,10 +89,9 @@ public class UserController {
 //        return ;
 //    }
 
-    @RequestMapping(value="/user/delete/{userId}", method= RequestMethod.DELETE)
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
-        String responseMessage = userId + " 사용자가 성공적으로 삭제되었습니다.";
-        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 }
