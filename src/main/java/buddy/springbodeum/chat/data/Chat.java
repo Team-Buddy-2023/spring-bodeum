@@ -1,6 +1,6 @@
 package buddy.springbodeum.chat.data;
 
-import buddy.springbodeum.character.Character;
+import buddy.springbodeum.fluffy.Fluffy;
 import buddy.springbodeum.user.data.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,15 +27,15 @@ public class Chat {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "character_id")
-    private Character character;
+    @JoinColumn(name = "fluffy_id")
+    private Fluffy fluffy;
 
-    public Chat(String question, String answer, LocalDateTime dateTime, User user, Character character) {
+    public Chat(String question, String answer, LocalDateTime dateTime, User user, Fluffy fluffy) {
         this.question = question;
         this.answer = answer;
         this.dateTime = dateTime;
         this.user = user;
-        this.character = character;
+        this.fluffy = fluffy;
     }
 
     public Chat() {

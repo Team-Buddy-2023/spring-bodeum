@@ -1,6 +1,6 @@
 package buddy.springbodeum.chat;
 
-import buddy.springbodeum.character.CharacterRepository;
+import buddy.springbodeum.fluffy.FluffyRepository;
 import buddy.springbodeum.chat.data.Chat;
 import buddy.springbodeum.chat.data.ChatRequestDTO;
 import buddy.springbodeum.chat.service.ChatService;
@@ -21,23 +21,23 @@ public class ChatController {
     private final ChatService chatService;
     private final GPTService gptService;
     private final UserRepository userRepository;
-    private final CharacterRepository characterRepository;
+    private final FluffyRepository fluffyRepository;
 
-    public ChatController(ChatService chatService, GPTService gptService, UserRepository userRepository, CharacterRepository characterRepository) {
+    public ChatController(ChatService chatService, GPTService gptService, UserRepository userRepository, FluffyRepository fluffyRepository) {
         this.chatService = chatService;
         this.gptService = gptService;
         this.userRepository = userRepository;
-        this.characterRepository = characterRepository;
+        this.fluffyRepository = fluffyRepository;
     }
 
-    @PostMapping(value = "/chat/{characterId}")
-    public String createChatAnswer(@PathVariable Long characterId, @RequestBody String message) {
-        return gptService.createAnswer(message, characterId);
+    @PostMapping(value = "/chat/{fluffyId}")
+    public String createChatAnswer(@PathVariable Long fluffyId, @RequestBody String message) {
+        return gptService.createAnswer(message, fluffyId);
     }
 
     @PostMapping(value = "/chat/share")
     public void shareChatAnswer(@RequestBody ChatRequestDTO chatRequestDTO) {
-        Long characterId = chatRequestDTO.getCharacterId();
+        Long fluffyId = chatRequestDTO.getFluffyId();
         Long userId = chatRequestDTO.getUserId();
         LocalDateTime dateTime = chatRequestDTO.getDateTime();
         Map<String, String> questionAndAnswer = chatRequestDTO.getQuestionAndAnswer();
@@ -45,7 +45,7 @@ public class ChatController {
         for (Map.Entry<String, String> entry : questionAndAnswer.entrySet()) {
             String question = entry.getKey();
             String answer = entry.getValue();
-            Chat chat = new Chat(question, answer, dateTime, userRepository.findByUserId(userId), characterRepository.findCharacterById(characterId));
+            Chat chat = new Chat(question, answer, dateTime, userRepository.findByUserId(userId), fluffyRepository.findFluffyById(fluffyId));
             chatService.createChat(chat);
         }
 
