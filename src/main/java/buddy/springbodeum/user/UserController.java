@@ -67,16 +67,16 @@ public class UserController {
 //    }
 
     @RequestMapping(value="/update/{userId}", method= RequestMethod.PUT)
-    public ResponseEntity<Void> updateMyPage(@PathVariable Long userId, @RequestBody MypageRequestDTO mypageRequestDTO) {
+    public ResponseEntity<String> updateMyPage(@PathVariable Long userId, @RequestBody MypageRequestDTO mypageRequestDTO) {
         String nickname = mypageRequestDTO.getNickname();
         String favoriteFluffyName = mypageRequestDTO.getFavoriteFluffyName();
         userService.updateMyPage(userId, nickname, favoriteFluffyName);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("사용자 정보가 성공적으로 수정되었습니다.");
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
     }
 }
