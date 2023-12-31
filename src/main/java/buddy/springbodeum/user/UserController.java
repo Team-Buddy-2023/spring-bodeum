@@ -39,8 +39,9 @@ public class UserController {
 
         String accessToken = kakaoService.getAccessToken(code);
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
+        String userName = (String) userInfo.get("nickname");
 
-        User user = userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("nickname"), (String) userInfo.get("email")); //회원가입
+        User user = userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("email")); //회원가입
 
         UserLoginResponseDTO userLoginResponseDTO = kakaoService.kakaoLogin(user);
         return new BaseResponse<>(userLoginResponseDTO.getStatus(), "요청 성공했습니다.", userLoginResponseDTO);
@@ -62,7 +63,7 @@ public class UserController {
 
 //    @RequestMapping(value="/{userId}", method= RequestMethod.GET)
 //    public MyPageResponseDTO myPage(@PathVariable Long userId) {
-//
+//        MypageRequestDTO mypageRequestDTO = userService.
 //    }
 
     @RequestMapping(value="/update/{userId}", method= RequestMethod.PUT)
