@@ -1,12 +1,13 @@
 package buddy.springbodeum.user;
 
+import buddy.springbodeum.chat.data.ChatRequestDTO;
 import buddy.springbodeum.user.base.BaseResponse;
 import buddy.springbodeum.user.data.User;
 import buddy.springbodeum.user.dto.MyPageResponseDTO;
+import buddy.springbodeum.user.dto.MypageRequestDTO;
 import buddy.springbodeum.user.dto.UserLoginResponseDTO;
 import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,30 +24,6 @@ public class UserController {
         this.kakaoService = kakaoService;
         this.userService = userService;
     }
-
-//    @RequestMapping(value="/kakao/url", method= RequestMethod.GET)
-//    public String login(Model model) {
-//        model.addAttribute("kakaoUrl", kakaoService.getKakaoLogin());
-//        System.out.println(kakaoService.getKakaoLogin());
-//        return "index";
-//    }
-//
-//    //백에서 테스트용
-//    @RequestMapping(value = "/kakao/redirect", method = RequestMethod.GET)
-//    public void callback(HttpServletRequest request) throws Exception {
-//        System.out.println(request);
-//
-//        String remoteAddr = request.getRemoteAddr(); // 클라이언트 IP 주소
-//        String method = request.getMethod(); // HTTP 요청 메서드 (GET, POST 등)
-//        String uri = request.getRequestURI(); // 요청 URI
-//        String queryString = request.getQueryString(); // 쿼리 스트링
-//
-//        System.out.println("Remote Address: " + remoteAddr);
-//        System.out.println("HTTP Method: " + method);
-//        System.out.println("Request URI: " + uri);
-//        System.out.println("Query String: " + queryString);
-//
-//    }
 
     @RequestMapping(value="/kakao/login", method= RequestMethod.GET)
     public String kakaoLogin() {
@@ -83,11 +60,18 @@ public class UserController {
         return "redirect:/";
     }
 
-//    @RequestMapping(value="/user/{userId}", method= RequestMethod.GET)
-//    public MyPageResponseDTO mypage() {
+//    @RequestMapping(value="/{userId}", method= RequestMethod.GET)
+//    public MyPageResponseDTO myPage(@PathVariable Long userId) {
 //
-//        return ;
 //    }
+
+    @RequestMapping(value="/update/{userId}", method= RequestMethod.PUT)
+    public ResponseEntity<Void> updateMyPage(@PathVariable Long userId, @RequestBody MypageRequestDTO mypageRequestDTO) {
+        String nickname = mypageRequestDTO.getNickname();
+        String favoriteFluffyName = mypageRequestDTO.getFavoriteFluffyName();
+        userService.updateMyPage(userId, nickname, favoriteFluffyName);
+        return ResponseEntity.ok().build();
+    }
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {

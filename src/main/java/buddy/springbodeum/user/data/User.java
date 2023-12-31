@@ -1,11 +1,11 @@
 package buddy.springbodeum.user.data;
 
+import buddy.springbodeum.fluffy.Fluffy;
 import buddy.springbodeum.chat.data.Chat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
 
 @Entity(name = "user")
 @Getter
@@ -25,6 +25,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Chat> chat;
+
+    @OneToOne
+    private Fluffy favoriteFluffy;
 
     public User(Long kakaoId, String nickname, String email) {
         this.kakaoId = kakaoId;

@@ -1,5 +1,7 @@
 package buddy.springbodeum.user.service;
 
+import buddy.springbodeum.fluffy.Fluffy;
+import buddy.springbodeum.fluffy.FluffyRepository;
 import buddy.springbodeum.user.data.User;
 import buddy.springbodeum.user.UserRepository;
 import org.springframework.stereotype.Service;
@@ -9,9 +11,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final FluffyRepository fluffyRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, FluffyRepository fluffyRepository) {
         this.userRepository = userRepository;
+        this.fluffyRepository = fluffyRepository;
     }
 
     public User kakaoLogin(String kakaoId, String nickname, String email) {
@@ -38,5 +42,21 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    public void updateMyPage(Long userId, String nickname, String favoriteFluffyName) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException(userId + " 사용자를 찾을 수 없습니다."));
+
+        if (nickname != null) {
+            user.setNickname(nickname);
+        }
+
+        if (favoriteFluffyName != null) {
+            Fluffy favoriteFluffy = fluffyRepository.findByName(favoriteFluffyName);
+            user.setFavoriteFluffy(favoriteFluffy);
+        }
+
+        userRepository.save(user);
     }
 }
