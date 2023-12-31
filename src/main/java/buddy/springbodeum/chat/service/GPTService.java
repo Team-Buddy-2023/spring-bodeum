@@ -1,7 +1,7 @@
 package buddy.springbodeum.chat.service;
 
-import buddy.springbodeum.character.Character;
-import buddy.springbodeum.character.CharacterService;
+import buddy.springbodeum.fluffy.Fluffy;
+import buddy.springbodeum.fluffy.FluffyService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -22,19 +22,19 @@ import java.util.List;
 @Service
 public class GPTService {
 
-    private final CharacterService characterService;
+    private final FluffyService fluffyService;
 
-    public GPTService(CharacterService characterService) {
-        this.characterService = characterService;
+    public GPTService(FluffyService fluffyService) {
+        this.fluffyService = fluffyService;
     }
 
-    public String createAnswer(String message, Long characterId) {
-        Character character = characterService.getCharacter(characterId);
+    public String createAnswer(String message, Long fluffyId) {
+        Fluffy fluffy = fluffyService.getFluffy(fluffyId);
 
-        if (character == null) {
+        if (fluffy == null) {
         }
 
-        String description = character.getDescription();
+        String description = fluffy.getDescription();
         System.out.println(description);
 
         if (description == null) {

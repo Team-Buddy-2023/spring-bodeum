@@ -2,6 +2,7 @@ package buddy.springbodeum.user.service;
 
 import buddy.springbodeum.user.UserRepository;
 import buddy.springbodeum.user.data.*;
+import buddy.springbodeum.user.dto.UserLoginResponseDTO;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

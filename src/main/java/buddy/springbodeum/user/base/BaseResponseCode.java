@@ -1,4 +1,4 @@
-package buddy.springbodeum.user.data;
+package buddy.springbodeum.user.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
