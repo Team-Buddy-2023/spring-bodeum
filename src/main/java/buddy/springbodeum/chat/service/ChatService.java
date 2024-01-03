@@ -46,4 +46,8 @@ public class ChatService {
 
         return communityResponseList;
     }
+
+    public void deleteChat(Long chatId) {
+        chatRepository.deleteById(chatId);
+    }
 }

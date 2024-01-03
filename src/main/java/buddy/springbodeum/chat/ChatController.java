@@ -59,4 +59,10 @@ public class ChatController {
     public List<CommunityResponseDTO> getCommunityChatList() {
         return chatService.getCommunityChatList();
     }
+
+    @DeleteMapping(value = "/chat/{chatId}")
+    public ResponseEntity<String> deleteChat(@PathVariable Long chatId) {
+        chatService.deleteChat(chatId);
+        return ResponseEntity.status(HttpStatus.OK).body("성공적으로 삭제되었습니다.");
+    }
 }
