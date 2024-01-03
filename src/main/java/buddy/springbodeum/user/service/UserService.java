@@ -115,7 +115,13 @@ public class UserService {
         User user = userRepository.findByUserId(userId);
         String nickname = user.getNickname();
         String email = user.getEmail();
-        String favoriteFluffyName = user.getFavoriteFluffy().getName();
+        String favoriteFluffyName = null;
+
+        Fluffy fluffy = user.getFavoriteFluffy();
+        if (fluffy != null) {
+            favoriteFluffyName = fluffy.getName();
+        }
+
 
         List<Chat> chatList = user.getChat();
 
