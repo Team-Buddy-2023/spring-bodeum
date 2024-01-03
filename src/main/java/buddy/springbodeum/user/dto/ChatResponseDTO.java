@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public class ChatResponseDTO {
+    private Long chatId;
     private String fluffyName;
     private String comment;
     private String answer;
