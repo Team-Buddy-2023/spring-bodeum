@@ -1,10 +1,9 @@
 package buddy.springbodeum.user;
 
-import buddy.springbodeum.chat.data.ChatRequestDTO;
 import buddy.springbodeum.user.base.BaseResponse;
 import buddy.springbodeum.user.data.User;
 import buddy.springbodeum.user.dto.MyPageResponseDTO;
-import buddy.springbodeum.user.dto.MypageRequestDTO;
+import buddy.springbodeum.user.dto.UpdateMyPageRequestDTO;
 import buddy.springbodeum.user.dto.UserLoginResponseDTO;
 import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
@@ -55,21 +54,21 @@ public class UserController {
             kakaoService.kakaoLogout(access_Token);
             session.removeAttribute("access_Token");
             session.removeAttribute("userId");
-        }else{
+        } else{
             System.out.println("access_Token is null");
         }
         return "redirect:/";
     }
 
-//    @RequestMapping(value="/{userId}", method= RequestMethod.GET)
-//    public MyPageResponseDTO myPage(@PathVariable Long userId) {
-//        MypageRequestDTO mypageRequestDTO = userService.
-//    }
+    @RequestMapping(value="/{userId}", method= RequestMethod.GET)
+    public MyPageResponseDTO myPage(@PathVariable Long userId) {
+        return userService.getMyPage(userId);
+    }
 
     @RequestMapping(value="/update/{userId}", method= RequestMethod.PUT)
-    public ResponseEntity<String> updateMyPage(@PathVariable Long userId, @RequestBody MypageRequestDTO mypageRequestDTO) {
-        String nickname = mypageRequestDTO.getNickname();
-        String favoriteFluffyName = mypageRequestDTO.getFavoriteFluffyName();
+    public ResponseEntity<String> updateMyPage(@PathVariable Long userId, @RequestBody UpdateMyPageRequestDTO myPageRequestDTO) {
+        String nickname = myPageRequestDTO.getNickname();
+        String favoriteFluffyName = myPageRequestDTO.getFavoriteFluffyName();
         userService.updateMyPage(userId, nickname, favoriteFluffyName);
         return ResponseEntity.ok("사용자 정보가 성공적으로 수정되었습니다.");
     }
