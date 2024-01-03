@@ -14,4 +14,6 @@ public interface FluffyRepository extends JpaRepository<Fluffy, Long> {
     Fluffy findFluffyById(Long fluffyId);
 
     Fluffy findByName(String name);
+
+    Fluffy findFluffyByName(String fluffyName);
 }
