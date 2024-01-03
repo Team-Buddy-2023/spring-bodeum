@@ -3,12 +3,12 @@ package buddy.springbodeum.chat.data;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
 
 @Data
 public class ChatRequestDTO {
-    private Long fluffyId;
     private Long userId;
+    private String fluffyName;
     private LocalDateTime dateTime;
-    private Map<String, String> questionAndAnswer;
+    private List<ChatDTO> chat;
 }

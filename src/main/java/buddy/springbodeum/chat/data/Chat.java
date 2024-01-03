@@ -30,9 +30,10 @@ public class Chat {
     @JoinColumn(name = "fluffy_id")
     private Fluffy fluffy;
 
-    public Chat(String question, String answer, LocalDateTime dateTime, User user, Fluffy fluffy) {
+    public Chat(String question, String answer, String comment, LocalDateTime dateTime, User user, Fluffy fluffy) {
         this.question = question;
         this.answer = answer;
+        this.comment = comment;
         this.dateTime = dateTime;
         this.user = user;
         this.fluffy = fluffy;
