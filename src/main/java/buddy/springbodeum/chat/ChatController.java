@@ -1,6 +1,7 @@
 package buddy.springbodeum.chat;
 
 import buddy.springbodeum.chat.data.ChatDTO;
+import buddy.springbodeum.chat.data.CommunityResponseDTO;
 import buddy.springbodeum.fluffy.FluffyRepository;
 import buddy.springbodeum.chat.data.Chat;
 import buddy.springbodeum.chat.data.ChatRequestDTO;
@@ -9,10 +10,7 @@ import buddy.springbodeum.chat.service.GPTService;
 import buddy.springbodeum.user.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,5 +53,10 @@ public class ChatController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 저장되었습니다.");
+    }
+
+    @GetMapping(value = "/chat/community")
+    public List<CommunityResponseDTO> getCommunityChatList() {
+        return chatService.getCommunityChatList();
     }
 }

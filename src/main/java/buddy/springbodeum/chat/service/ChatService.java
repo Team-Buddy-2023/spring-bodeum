@@ -2,7 +2,14 @@ package buddy.springbodeum.chat.service;
 
 import buddy.springbodeum.chat.ChatRepository;
 import buddy.springbodeum.chat.data.Chat;
+import buddy.springbodeum.chat.data.CommunityResponseDTO;
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ChatService {
@@ -17,5 +24,26 @@ public class ChatService {
 
     public void createChat(Chat chat) {
         chatRepository.save(chat);
+    }
+
+    public List<CommunityResponseDTO> getCommunityChatList() {
+        List<Chat> chats = chatRepository.findAll();
+
+        List<CommunityResponseDTO> communityResponseList = new ArrayList<>();
+
+        for (Chat chat : chats) {
+            Long chatId = chat.getId();
+            Long userId = chat.getUser().getUserId();
+            String nickname = chat.getUser().getNickname();
+            String comment = chat.getComment();
+            String fluffyName = chat.getFluffy().getName();
+            LocalDateTime dateTime = chat.getDateTime();
+            String answer = chat.getAnswer();
+
+            CommunityResponseDTO communityResponseDTO = new CommunityResponseDTO(chatId, userId, nickname, comment, fluffyName, dateTime, answer);
+            communityResponseList.add(communityResponseDTO);
+        }
+
+        return communityResponseList;
     }
 }
