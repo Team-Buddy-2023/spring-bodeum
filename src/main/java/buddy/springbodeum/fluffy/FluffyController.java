@@ -23,11 +23,11 @@ public class FluffyController {
     // 메인화면 첫 로딩 시 캐릭터 정보를 가져옴
 //    @RequestMapping(value = "/characters", method = RequestMethod.GET)
     @GetMapping(value = "")
-    public List<FluffyResponseDTO> getAllFluffies() {
-        List<Fluffy> fluffies = fluffyService.getAllFluffies();
+    public List<FluffyResponseDTO> getAllFluffys() {
+        List<Fluffy> fluffys = fluffyService.getAllFluffys();
 
         // FluffyResponseDTO로 변환하여 반환
-        return fluffies.stream()
+        return fluffys.stream()
                 .map(fluffy -> new FluffyResponseDTO(
                         fluffy.getId(),
                         fluffy.getName(),
@@ -38,14 +38,14 @@ public class FluffyController {
 
     //캐릭터 저장(서버상에서)
     @GetMapping(value = "/delete")
-    public String deleteFluffies() {
+    public String deleteFluffys() {
         fluffyService.deleteAll();
-        return "delete fluffies";
+        return "delete fluffys";
     }
 
     @GetMapping(value = "/create")
-    public String saveFluffies() {
-        fluffyService.createFluffies();
-        return "create fluffies";
+    public String saveFluffys() {
+        fluffyService.createFluffys();
+        return "create fluffys";
     }
 }

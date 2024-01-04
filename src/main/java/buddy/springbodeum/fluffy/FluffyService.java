@@ -14,12 +14,12 @@ public class FluffyService {
         this.fluffyRepository = fluffyRepository;
     }
 
-    public List<Fluffy> getAllFluffies() {
+    public List<Fluffy> getAllFluffys() {
         // 모든 캐릭터를 데이터베이스에서 가져옵니다.
         return fluffyRepository.findAll();
     }
 
-    public void createFluffies() {
+    public void createFluffys() {
         // 캐릭터 1
         Fluffy fluffy1 = new Fluffy("토비", "따뜻한 마음을 지닌 활발한 토비\n당신에게 즐거운 웃음과 감동을 전해 비춰드릴게요");
         fluffyRepository.save(fluffy1);

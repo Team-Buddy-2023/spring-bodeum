@@ -112,9 +112,9 @@ public class UserService {
         List<ChatResponseDTO> chat = createChatResponseDTOList(chatList);
 
 
-        List<Fluffy> allFluffies = fluffyRepository.findAll();
+        List<Fluffy> allFlufys = fluffyRepository.findAll();
 
-        List<MostSharedFluffy> mostSharedFluffyList = createMostSharedFluffyList(chatList, allFluffies);
+        List<MostSharedFluffy> mostSharedFluffyList = createMostSharedFluffyList(chatList, allFlufys);
 
         // MostSharedFluffyList의 number 수정
         int currentNumber = 0;
@@ -150,13 +150,13 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    private List<MostSharedFluffy> createMostSharedFluffyList(List<Chat> chatList, List<Fluffy> allFluffies) {
+    private List<MostSharedFluffy> createMostSharedFluffyList(List<Chat> chatList, List<Fluffy> allFluffys) {
         Map<String, Long> fluffyCountMap = chatList.stream()
                 .map(Chat::getFluffy)
                 .map(Fluffy::getName)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        return allFluffies.stream()
+        return allFluffys.stream()
                 .map(fluffy -> new MostSharedFluffy(
                         fluffy.getName(),
                         fluffy.getDescription(),
