@@ -1,5 +1,6 @@
 package buddy.springbodeum.chat.data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,10 @@ public class CommunityResponseDTO {
     private String nickname;
     private String comment;
     private String fluffyName;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime dateTime;
+
     private String answer;
 
     public CommunityResponseDTO(Long chatId, Long userId, String nickname, String comment, String fluffyName, LocalDateTime dateTime, String answer) {
