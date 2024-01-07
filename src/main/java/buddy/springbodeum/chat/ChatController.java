@@ -1,10 +1,8 @@
 package buddy.springbodeum.chat;
 
-import buddy.springbodeum.chat.data.ChatDTO;
-import buddy.springbodeum.chat.data.CommunityResponseDTO;
+import buddy.springbodeum.chat.dto.*;
 import buddy.springbodeum.fluffy.FluffyRepository;
 import buddy.springbodeum.chat.data.Chat;
-import buddy.springbodeum.chat.data.ChatRequestDTO;
 import buddy.springbodeum.chat.service.ChatService;
 import buddy.springbodeum.chat.service.GPTService;
 import buddy.springbodeum.user.UserRepository;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -33,8 +30,8 @@ public class ChatController {
     }
 
     @PostMapping(value = "/chat/{fluffyId}")
-    public String createChatAnswer(@PathVariable Long fluffyId, @RequestBody String message) {
-        return gptService.createAnswer(message, fluffyId);
+    public ChatAnswerDTO createChatAnswer(@PathVariable Long fluffyId, @RequestBody ChatQuestionDTO question) {
+        return gptService.createAnswer(question.getQuestion(), fluffyId);
     }
 
     @PostMapping(value = "/chat/share/{userId}")

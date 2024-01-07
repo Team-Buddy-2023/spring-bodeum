@@ -1,4 +1,4 @@
-package buddy.springbodeum.chat.data;
+package buddy.springbodeum.chat.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

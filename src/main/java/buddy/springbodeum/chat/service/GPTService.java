@@ -1,5 +1,6 @@
 package buddy.springbodeum.chat.service;
 
+import buddy.springbodeum.chat.dto.ChatAnswerDTO;
 import buddy.springbodeum.fluffy.Fluffy;
 import buddy.springbodeum.fluffy.FluffyService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,24 +29,25 @@ public class GPTService {
         this.fluffyService = fluffyService;
     }
 
-    public String createAnswer(String message, Long fluffyId) {
+    public ChatAnswerDTO createAnswer(String message, Long fluffyId) {
         Fluffy fluffy = fluffyService.getFluffy(fluffyId);
 
         if (fluffy == null) {
+            System.out.println("플러피가 없습니다.");
         }
 
         String description = fluffy.getDescription();
         System.out.println(description);
 
         if (description == null) {
-            return "캐릭터 설명이 없습니다.";
+            System.out.println("플러피 설명이 없습니다.");
         }
 
         String content = description + message + " 그리고 대답은 친구처럼 반말로 대답해줘";
 
         String openAIResponse = send(content);
         String jsonOnly = openAIResponse.substring(openAIResponse.indexOf("{"));
-        return extractAssistantResponse(jsonOnly);
+        return new ChatAnswerDTO(extractAssistantResponse(jsonOnly));
     }
 
     private String extractAssistantResponse(String openAIResponse) {
