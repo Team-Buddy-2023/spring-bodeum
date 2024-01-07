@@ -1,4 +1,4 @@
-package buddy.springbodeum.chat.data;
+package buddy.springbodeum.chat.dto;
 
 import lombok.Data;
 

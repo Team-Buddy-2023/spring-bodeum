@@ -2,6 +2,7 @@ package buddy.springbodeum.chat.data;
 
 import buddy.springbodeum.fluffy.Fluffy;
 import buddy.springbodeum.user.data.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +20,10 @@ public class Chat {
 
     private String question;
     private String answer;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime dateTime;
+
     private String comment;
 
     @ManyToOne

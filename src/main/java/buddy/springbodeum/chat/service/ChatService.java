@@ -2,9 +2,7 @@ package buddy.springbodeum.chat.service;
 
 import buddy.springbodeum.chat.ChatRepository;
 import buddy.springbodeum.chat.data.Chat;
-import buddy.springbodeum.chat.data.CommunityResponseDTO;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.ResponseEntity;
+import buddy.springbodeum.chat.dto.CommunityResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
