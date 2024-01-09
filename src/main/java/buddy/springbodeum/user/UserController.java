@@ -7,6 +7,7 @@ import buddy.springbodeum.user.dto.UpdateMyPageRequestDTO;
 import buddy.springbodeum.user.dto.UserLoginResponseDTO;
 import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,6 +70,11 @@ public class UserController {
     public ResponseEntity<String> updateMyPage(@PathVariable Long userId, @RequestBody UpdateMyPageRequestDTO myPageRequestDTO) {
         String nickname = myPageRequestDTO.getNickname();
         String favoriteFluffyName = myPageRequestDTO.getFavoriteFluffyName();
+
+        if (nickname != null && userService.validateDuplicateNickname(nickname)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 사용 중인 닉네임입니다.");
+        }
+
         userService.updateMyPage(userId, nickname, favoriteFluffyName);
         return ResponseEntity.ok("사용자 정보가 성공적으로 수정되었습니다.");
     }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class ChatRequestDTO {
@@ -14,5 +13,7 @@ public class ChatRequestDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime dateTime;
 
-    private List<ChatDTO> chat;
+    private String question;
+    private String answer;
+    private String comment;
 }
