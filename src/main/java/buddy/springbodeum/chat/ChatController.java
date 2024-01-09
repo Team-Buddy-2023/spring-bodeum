@@ -39,15 +39,13 @@ public class ChatController {
         String fluffyName = chatRequestDTO.getFluffyName();
         LocalDateTime dateTime = chatRequestDTO.getDateTime();
 
-        List<ChatDTO> chatList = chatRequestDTO.getChat();
+        String question = chatRequestDTO.getQuestion();
+        String answer = chatRequestDTO.getAnswer();
+        String comment = chatRequestDTO.getComment();
 
-        for (ChatDTO chatDTO : chatList) {
-            String question = chatDTO.getQuestion();
-            String answer = chatDTO.getAnswer();
-            String comment = chatDTO.getComment();
-            Chat chat = new Chat(question, answer,comment, dateTime, userRepository.findByUserId(userId), fluffyRepository.findFluffyByName(fluffyName));
-            chatService.createChat(chat);
-        }
+        Chat chat = new Chat(question, answer,comment, dateTime, userRepository.findByUserId(userId), fluffyRepository.findFluffyByName(fluffyName));
+
+        chatService.createChat(chat);
 
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 저장되었습니다.");
     }
