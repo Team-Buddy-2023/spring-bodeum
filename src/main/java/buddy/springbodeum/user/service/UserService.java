@@ -164,4 +164,8 @@ public class UserService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    public boolean validateDuplicateNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
 }
