@@ -22,6 +22,7 @@ public class User {
     private Long kakaoId;
     private String nickname;
     private String email;
+    private String imageURL;
 
     @OneToMany(mappedBy = "user")
     private List<Chat> chat;

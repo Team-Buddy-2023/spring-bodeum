@@ -47,9 +47,21 @@ public class UserService {
 
         User user = new User(kakaoIdLong, nickname, email);
         if(validateDuplicateUser(user)) {
+            //프로필 이미지 추가
+            user.setImageURL(getProfileRandomImage());
+
             userRepository.save(user);
         }
         return userRepository.findByKakaoId(kakaoIdLong);
+    }
+
+    private String getProfileRandomImage() {
+        String S3_BASE_URL = "https://bodeumbucket.s3.ap-northeast-2.amazonaws.com/";
+
+        // 1에서 5까지의 랜덤한 숫자 생성
+        int randomNumber = new Random().nextInt(5) + 1;
+
+        return S3_BASE_URL + "IMG_" + randomNumber + ".PNG";
     }
 
     private String getRandomNickName() {
