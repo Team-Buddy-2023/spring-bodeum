@@ -8,6 +8,7 @@ import buddy.springbodeum.user.UserRepository;
 import buddy.springbodeum.user.dto.ChatResponseDTO;
 import buddy.springbodeum.user.dto.MostSharedFluffy;
 import buddy.springbodeum.user.dto.MyPageResponseDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,6 +18,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+
+    @Value("${bucket}")
+    private String BUCKET;
+
 
     private static final String[] COLORS = {"빨간", "파란", "노란", "푸른", "하얀", "검은", "핑크", "보라", "주황", "회색"};
     private static final String[] ANIMALS = {"강아지", "고양이", "호랑이", "사자", "새", "토끼", "양", "돼지", "소", "말"};
@@ -47,9 +52,21 @@ public class UserService {
 
         User user = new User(kakaoIdLong, nickname, email);
         if(validateDuplicateUser(user)) {
+            //프로필 이미지 추가
+            user.setImageURL(getProfileRandomImage());
+
             userRepository.save(user);
         }
         return userRepository.findByKakaoId(kakaoIdLong);
+    }
+
+    private String getProfileRandomImage() {
+        String s3BaseURL = "https://" + BUCKET + ".s3.ap-northeast-2.amazonaws.com/";
+
+        // 1에서 5까지의 랜덤한 숫자 생성
+        int randomNumber = new Random().nextInt(5) + 1;
+
+        return s3BaseURL + "IMG_" + randomNumber + ".PNG";
     }
 
     private String getRandomNickName() {

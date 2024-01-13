@@ -1,5 +1,7 @@
 package buddy.springbodeum.user;
 
+import buddy.springbodeum.chat.ChatRepository;
+import buddy.springbodeum.chat.data.Chat;
 import buddy.springbodeum.user.base.BaseResponse;
 import buddy.springbodeum.user.data.User;
 import buddy.springbodeum.user.dto.MyPageResponseDTO;
@@ -7,22 +9,28 @@ import buddy.springbodeum.user.dto.UpdateMyPageRequestDTO;
 import buddy.springbodeum.user.dto.UserLoginResponseDTO;
 import buddy.springbodeum.user.service.KakaoService;
 import buddy.springbodeum.user.service.UserService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class UserController {
 
     private final KakaoService kakaoService;
     private final UserService userService;
+    private final ChatRepository chatRepository;
+    private final UserRepository userRepository;
 
-    public UserController(KakaoService kakaoService, UserService userService) {
+    public UserController(KakaoService kakaoService, UserService userService, ChatRepository chatRepository, UserRepository userRepository) {
         this.kakaoService = kakaoService;
         this.userService = userService;
+        this.chatRepository = chatRepository;
+        this.userRepository = userRepository;
     }
 
     @RequestMapping(value="/kakao/login", method= RequestMethod.GET)
@@ -81,7 +89,23 @@ public class UserController {
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
+        } catch (DataIntegrityViolationException e) {
+            // 외래 키 제약 조건 위배로 인한 예외 처리
+            deleteChatsByUserId(userId);
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("사용자와 관련된 모든 채팅과 함께 사용자가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("사용자 삭제 중 오류가 발생했습니다.");
+        }
     }
+
+    private void deleteChatsByUserId(Long userId) {
+        List<Chat> chats = chatRepository.findByUser(userRepository.findByUserId(userId));
+        chatRepository.deleteAll(chats);
+    }
+
 }
