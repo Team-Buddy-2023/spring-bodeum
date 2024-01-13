@@ -36,6 +36,7 @@ jobs:
           cd ./src/main/resources
           touch ./application.properties
           
+          echo "bucket=${{ secrets.S3_BUCKET_NAME }}" >> ./application.properties
           echo "${{ secrets.DATABASE_PROPERTIES }}" >> ./application.properties
           echo "kakao.client.id=${{ secrets.KAKAO_CLIENT_ID }}" >> ./application.properties
           echo "kakao.client.secret=${{ secrets.KAKAO_CLIENT_SECRET }}" >> ./application.properties
