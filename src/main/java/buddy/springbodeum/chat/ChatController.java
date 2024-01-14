@@ -29,7 +29,7 @@ public class ChatController {
         this.fluffyRepository = fluffyRepository;
     }
 
-    @PostMapping(value = "/chat/{fluffyId}")
+    @GetMapping(value = "/chat/{fluffyId}")
     public ChatAnswerDTO createChatAnswer(@PathVariable Long fluffyId, @RequestBody ChatQuestionDTO question) {
         return gptService.createAnswer(question.getQuestion(), fluffyId);
     }
