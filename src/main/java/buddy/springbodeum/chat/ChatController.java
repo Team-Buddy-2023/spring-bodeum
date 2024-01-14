@@ -31,8 +31,8 @@ public class ChatController {
     }
 
     @GetMapping(value = "/chat/{fluffyId}")
-    public ChatAnswerDTO createChatAnswer(@PathVariable Long fluffyId, @RequestBody String question) {
-        return gptService.createAnswer(question, fluffyId);
+    public ChatAnswerDTO createChatAnswer(@PathVariable String fluffyId, @RequestBody String question) {
+        return gptService.createAnswer(question, Long.valueOf(fluffyId));
     }
 
     @PostMapping(value = "/chat/share/{userId}")
