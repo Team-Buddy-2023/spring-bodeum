@@ -20,11 +20,11 @@ public class Chat {
 
     private String question;
     private String answer;
+    private String comment;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime dateTime;
 
-    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
