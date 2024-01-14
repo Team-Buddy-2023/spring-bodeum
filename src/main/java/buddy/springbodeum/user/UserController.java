@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class UserController {
 
     private final KakaoService kakaoService;
