@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -43,11 +44,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/oauth/callback/kakao", method = RequestMethod.GET)
-    public BaseResponse<UserLoginResponseDTO> kakaoCallback(@RequestParam("code") String code) {
+    public BaseResponse<UserLoginResponseDTO> kakaoCallback(HttpServletRequest request) {
+        String code = request.getParameter("code");
         System.out.println("인가코드: " + code);
 
-        String accessToken = kakaoService.getAccessToken(code);
+        String accessToken = kakaoService.getKakaoAccessToken(code);
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
+        System.out.println("카카오 로그인 카카오 아이디 : "+userInfo.get("kakaoId")  + userInfo.get("email"));
+
         String userName = (String) userInfo.get("nickname");
 
         User user = userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("email")); //회원가입
