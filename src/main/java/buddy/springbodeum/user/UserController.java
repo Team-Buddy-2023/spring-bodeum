@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/oauth/callback/kakao", method = RequestMethod.GET)
-    public BaseResponse<UserLoginResponseDTO> kakaoCallback(@RequestBody String code) {
+    public BaseResponse<UserLoginResponseDTO> kakaoCallback(@RequestParam("code") String code) {
         System.out.println("인가코드: " + code);
 
         String accessToken = kakaoService.getKakaoAccessToken(code);
