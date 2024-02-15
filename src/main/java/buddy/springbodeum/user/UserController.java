@@ -43,7 +43,6 @@ public class UserController {
         return kakaoLoginURL;
     }
 
-
     @RequestMapping(value = "/oauth/callback/kakao", method = RequestMethod.GET)
     public BaseResponse<UserLoginResponseDTO> kakaoCallback(@RequestParam("code") String code) {
         System.out.println("인가코드: " + code);
