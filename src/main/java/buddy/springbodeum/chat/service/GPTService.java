@@ -47,7 +47,6 @@ public class GPTService {
 
         String openAIResponse = send(content);
         String jsonOnly = openAIResponse.substring(openAIResponse.indexOf("{"));
-        System.out.println("test test");
         return new ChatAnswerDTO(extractAssistantResponse(jsonOnly));
     }
 

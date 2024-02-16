@@ -141,13 +141,15 @@ public class KakaoService {
                 String.class
         );
 
-        // JSON Parsing (-> KakaoTokenDto)
+        // JSON Parsing
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(accessTokenResponse.getBody()).getAsJsonObject();
+
+        String refresh_token = jsonObject.get("refresh_token").getAsString();
 
         return jsonObject.get("access_token").getAsString();
     }

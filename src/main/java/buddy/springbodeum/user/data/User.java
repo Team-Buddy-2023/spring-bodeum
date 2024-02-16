@@ -30,9 +30,10 @@ public class User {
     @OneToOne
     private Fluffy favoriteFluffy;
 
-    public User(Long kakaoId, String nickname, String email) {
+    public User(Long kakaoId, String nickname, String email, String imageURL) {
         this.kakaoId = kakaoId;
         this.nickname = nickname;
         this.email = email;
+        this.imageURL = imageURL;
     }
 }
