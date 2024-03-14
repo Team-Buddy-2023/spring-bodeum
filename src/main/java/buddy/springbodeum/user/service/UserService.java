@@ -43,20 +43,18 @@ public class UserService {
         // Long 타입으로 변환
         Long kakaoIdLong = Long.parseLong(kakaoId);
 
-        String nickname = getRandomNickName();
+        if (validateDuplicateUser(kakaoIdLong)) { //등록되지 않은 사용자일 때
+            String nickname = getRandomNickName();
 
-        // 닉네임이 이미 존재하는지 확인
-        while (userRepository.existsByNickname(nickname)) {
-            nickname = getRandomNickName(); // 중복된 경우 다시 랜덤 닉네임 생성
-        }
+            // 닉네임이 이미 존재하는지 확인
+            while (userRepository.existsByNickname(nickname)) {
+                nickname = getRandomNickName(); // 중복된 경우 다시 랜덤 닉네임 생성
+            }
 
-        User user = new User(kakaoIdLong, nickname, email);
-        if(validateDuplicateUser(user)) {
-            //프로필 이미지 추가
-            user.setImageURL(getProfileRandomImage());
-
+            User user = new User(kakaoIdLong, nickname, email, getProfileRandomImage());
             userRepository.save(user);
         }
+
         return userRepository.findByKakaoId(kakaoIdLong);
     }
 
@@ -84,15 +82,15 @@ public class UserService {
     }
 
 
-    private boolean validateDuplicateUser(User user) {
-        User existingUser = userRepository.findByEmail(user.getEmail());
+    private boolean validateDuplicateUser(Long kakaoId) {
+        User existingUser = userRepository.findByKakaoId(kakaoId);
 
         if (existingUser != null) {
-            System.out.println("이메일이 중복되었습니다.");
+            System.out.println("카카오 아이디가 중복되었습니다.");
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     public void deleteUser(Long userId) {

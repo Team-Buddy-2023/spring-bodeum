@@ -37,7 +37,6 @@ public class UserController {
 
     @RequestMapping(value="/kakao/login", method= RequestMethod.GET)
     public String kakaoLogin() {
-        System.out.println("test");
         String kakaoLoginURL = kakaoService.getKakaoLogin();
         System.out.println(kakaoLoginURL);
         return kakaoLoginURL;
@@ -49,9 +48,6 @@ public class UserController {
 
         String accessToken = kakaoService.getKakaoAccessToken(code);
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
-        System.out.println("카카오 로그인 카카오 아이디 : "+userInfo.get("kakaoId")  + userInfo.get("email"));
-
-        String userName = (String) userInfo.get("nickname");
 
         User user = userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("email")); //회원가입
 
