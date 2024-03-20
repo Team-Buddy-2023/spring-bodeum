@@ -29,11 +29,11 @@ public class FluffyService {
         fluffyRepository.save(fluffy2);
 
         // 캐릭터 3
-        Fluffy fluffy3 = new Fluffy("루미나", "감성적이고 창의적인 루미나\\n당신이 예상치 못한 답변으로 감동을 전달해드릴게요");
+        Fluffy fluffy3 = new Fluffy("루미나", "감성적이고 창의적인 루미나\n당신이 예상치 못한 답변으로 감동을 전달해드릴게요");
         fluffyRepository.save(fluffy3);
 
         // 캐릭터 4
-        Fluffy fluffy4 = new Fluffy("블리", "누구에게나 사랑을 전달하며 온 세상을 따뜻하게 만드는 블리\\n당신에게 희망을 드릴게요");
+        Fluffy fluffy4 = new Fluffy("블리", "누구에게나 사랑을 전달하며 온 세상을 따뜻하게 만드는 블리\n당신에게 희망을 드릴게요");
         fluffyRepository.save(fluffy4);
     }
 
