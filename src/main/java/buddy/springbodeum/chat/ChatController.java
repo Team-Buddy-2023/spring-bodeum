@@ -1,17 +1,20 @@
 package buddy.springbodeum.chat;
 
 import buddy.springbodeum.chat.dto.*;
+import buddy.springbodeum.fluffy.Fluffy;
 import buddy.springbodeum.fluffy.FluffyRepository;
 import buddy.springbodeum.chat.data.Chat;
 import buddy.springbodeum.chat.service.ChatService;
 import buddy.springbodeum.chat.service.GPTService;
 import buddy.springbodeum.user.UserRepository;
+import buddy.springbodeum.user.data.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -37,15 +40,24 @@ public class ChatController {
 
     @PostMapping(value = "/chat/share/{userId}")
     public ResponseEntity<String> shareChatAnswer(@PathVariable Long userId, @RequestBody ChatRequestDTO chatRequestDTO) {
-        String fluffyName = chatRequestDTO.getFluffyName();
-        LocalDateTime dateTime = chatRequestDTO.getDateTime();
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다");
+        }
 
+        Optional<Fluffy> optionalFluffy = fluffyRepository.findFluffyByName(chatRequestDTO.getFluffyName());
+        if (optionalFluffy.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("플러피를 찾을 수 없습니다");
+        }
+
+        User user = optionalUser.get();
+        Fluffy fluffy = optionalFluffy.get();
+        LocalDateTime dateTime = chatRequestDTO.getDateTime();
         String question = chatRequestDTO.getQuestion();
         String answer = chatRequestDTO.getAnswer();
         String comment = chatRequestDTO.getComment();
 
-        Chat chat = new Chat(question, answer,comment, dateTime, userRepository.findByUserId(userId), fluffyRepository.findFluffyByName(fluffyName));
-
+        Chat chat = new Chat(question, answer, comment, dateTime, user, fluffy);
         chatService.createChat(chat);
 
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 저장되었습니다.");

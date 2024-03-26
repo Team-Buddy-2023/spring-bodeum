@@ -114,7 +114,11 @@ public class UserService {
     }
 
     public MyPageResponseDTO getMyPage(Long userId) {
-        User user = userRepository.findByUserId(userId);
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. userId: " + userId);
+        }
+        User user = optionalUser.get();
         String nickname = user.getNickname();
         String email = user.getEmail();
         String favoriteFluffyName = Optional.ofNullable(user.getFavoriteFluffy())
