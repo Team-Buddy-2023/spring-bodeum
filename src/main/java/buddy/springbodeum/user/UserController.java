@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -103,8 +104,13 @@ public class UserController {
     }
 
     private void deleteChatsByUserId(Long userId) {
-        List<Chat> chats = chatRepository.findByUser(userRepository.findByUserId(userId));
-        chatRepository.deleteAll(chats);
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
+        if (optionalUser.isPresent()) {
+            List<Chat> chats = chatRepository.findByUser(optionalUser.get());
+            chatRepository.deleteAll(chats);
+        } else {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. userId: " + userId);
+        }
     }
 
 }
