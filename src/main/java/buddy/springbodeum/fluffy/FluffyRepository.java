@@ -1,7 +1,6 @@
 package buddy.springbodeum.fluffy;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 
 public interface FluffyRepository extends JpaRepository<Fluffy, Long> {
