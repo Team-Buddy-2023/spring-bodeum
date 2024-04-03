@@ -1,5 +1,6 @@
 package buddy.springbodeum.fluffy;
 
+import buddy.springbodeum.chat.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,10 +9,12 @@ import java.util.List;
 @Service
 public class FluffyService {
     private final FluffyRepository fluffyRepository;
+    private final ChatRepository chatRepository;
 
     @Autowired
-    public FluffyService(FluffyRepository fluffyRepository) {
+    public FluffyService(FluffyRepository fluffyRepository, ChatRepository chatRepository) {
         this.fluffyRepository = fluffyRepository;
+        this.chatRepository = chatRepository;
     }
 
     public List<Fluffy> getAllFluffys() {
@@ -38,7 +41,13 @@ public class FluffyService {
     }
 
     public void deleteAll() {
-        fluffyRepository.deleteAllInBatch();
+        // 모든 Fluffy에 해당하는 Chat 삭제
+        List<Fluffy> fluffies = fluffyRepository.findAll();
+        for (Fluffy fluffy : fluffies) {
+            chatRepository.deleteByFluffy(fluffy);
+        }
+        // 모든 Fluffy 삭제
+        fluffyRepository.deleteAll();
     }
 
     public Fluffy getFluffy(Long fluffyId) {
