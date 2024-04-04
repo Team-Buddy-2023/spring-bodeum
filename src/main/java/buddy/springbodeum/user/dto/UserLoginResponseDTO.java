@@ -10,4 +10,5 @@ public class UserLoginResponseDTO {
     private HttpStatus status;
     private String token;
     private Long userId;
+    private String nickName;
 }
