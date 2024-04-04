@@ -43,7 +43,7 @@ public class GPTService {
             System.out.println("플러피 설명이 없습니다.");
         }
 
-        String content = description + message + " 그리고 대답은 친구처럼 반말로 대답해줘";
+        String content = description + message + " 그리고 대답은 친구처럼 반말로 대답해줘 그리고 100자 이내로 대답해줘";
 
         String openAIResponse = send(content);
         String jsonOnly = openAIResponse.substring(openAIResponse.indexOf("{"));
