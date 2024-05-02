@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(originPatterns = "https://bodeum.vercel.app/")
+//@CrossOrigin(originPatterns = "https://bodeum.vercel.app/")
+@CrossOrigin("*")
 @RequestMapping("/characters")
 public class FluffyController {
 
