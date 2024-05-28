@@ -142,8 +142,10 @@ public class UserService {
         boolean allNumbersAreZero = mostSharedFluffyList.stream()
                 .allMatch(mostSharedFluffy -> mostSharedFluffy.getNumber() == 0);
 
+        String imageURL = user.getImageURL();
+
         if(allNumbersAreZero) {
-            return new MyPageResponseDTO(nickname, email, favoriteFluffyName, chat, mostSharedFluffyList);
+            return new MyPageResponseDTO(nickname, email, favoriteFluffyName, chat, mostSharedFluffyList, imageURL);
         }
 
         for (MostSharedFluffy mostSharedFluffy : mostSharedFluffyList) {
@@ -154,7 +156,7 @@ public class UserService {
             mostSharedFluffy.setNumber(currentNumber);
         }
 
-        return new MyPageResponseDTO(nickname, email, favoriteFluffyName, chat, mostSharedFluffyList);
+        return new MyPageResponseDTO(nickname, email, favoriteFluffyName, chat, mostSharedFluffyList, imageURL);
     }
 
     private List<ChatResponseDTO> createChatResponseDTOList(List<Chat> chatList) {

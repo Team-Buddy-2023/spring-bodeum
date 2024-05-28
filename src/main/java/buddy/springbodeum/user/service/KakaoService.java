@@ -198,7 +198,7 @@ public class KakaoService {
     public UserLoginResponseDTO kakaoLogin(User user) {
         Long userId = user.getUserId();
         String token = jwtTokenProvider.createToken(userId);
-        return new UserLoginResponseDTO(HttpStatus.OK, token, userId, user.getNickname());
+        return new UserLoginResponseDTO(HttpStatus.OK, token, userId, user.getNickname(), user.getImageURL());
     }
 
     public void kakaoLogout(String accessToken) {
