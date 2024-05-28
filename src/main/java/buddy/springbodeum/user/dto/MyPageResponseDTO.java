@@ -14,4 +14,5 @@ public class MyPageResponseDTO {
     private String favoriteFluffyName;
     private List<ChatResponseDTO> chat;
     private List<MostSharedFluffy> mostSharedFluffy;
+    private String imageURL;
 }
