@@ -17,8 +17,9 @@ public class CommunityResponseDTO {
     private LocalDateTime dateTime;
 
     private String answer;
+    private Integer views;
 
-    public CommunityResponseDTO(Long chatId, Long userId, String nickname, String comment, String fluffyName, LocalDateTime dateTime, String answer) {
+    public CommunityResponseDTO(Long chatId, Long userId, String nickname, String comment, String fluffyName, LocalDateTime dateTime, String answer, Integer views) {
         this.chatId = chatId;
         this.userId = userId;
         this.nickname = nickname;
@@ -26,5 +27,6 @@ public class CommunityResponseDTO {
         this.fluffyName = fluffyName;
         this.dateTime = dateTime;
         this.answer = answer;
+        this.views = views;
     }
 }

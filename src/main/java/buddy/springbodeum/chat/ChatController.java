@@ -73,4 +73,10 @@ public class ChatController {
         chatService.deleteChat(chatId);
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 삭제되었습니다.");
     }
+
+
+    @PostMapping(value = "/chat/views/{chatId}")
+    public void updateViews (@PathVariable Long chatId) {
+
+    }
 }

@@ -37,8 +37,8 @@ public class ChatService {
             String fluffyName = chat.getFluffy().getName();
             LocalDateTime dateTime = chat.getDateTime();
             String answer = chat.getAnswer();
-
-            CommunityResponseDTO communityResponseDTO = new CommunityResponseDTO(chatId, userId, nickname, comment, fluffyName, dateTime, answer);
+            Integer views = chat.getViews();
+            CommunityResponseDTO communityResponseDTO = new CommunityResponseDTO(chatId, userId, nickname, comment, fluffyName, dateTime, answer, views);
             communityResponseList.add(communityResponseDTO);
         }
 
