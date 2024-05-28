@@ -11,4 +11,5 @@ public class UserLoginResponseDTO {
     private String token;
     private Long userId;
     private String nickName;
+    private String imageURL;
 }
