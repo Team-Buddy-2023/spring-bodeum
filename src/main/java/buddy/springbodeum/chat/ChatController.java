@@ -57,7 +57,7 @@ public class ChatController {
         String answer = chatRequestDTO.getAnswer();
         String comment = chatRequestDTO.getComment();
 
-        Chat chat = new Chat(question, answer, comment, dateTime, user, fluffy);
+        Chat chat = new Chat(question, answer, comment, dateTime, user, fluffy, 0);
         chatService.createChat(chat);
 
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 저장되었습니다.");
