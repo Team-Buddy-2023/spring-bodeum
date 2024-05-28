@@ -57,7 +57,7 @@ public class ChatController {
         String answer = chatRequestDTO.getAnswer();
         String comment = chatRequestDTO.getComment();
 
-        Chat chat = new Chat(question, answer, comment, dateTime, user, fluffy);
+        Chat chat = new Chat(question, answer, comment, dateTime, user, fluffy, 0);
         chatService.createChat(chat);
 
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 저장되었습니다.");
@@ -72,5 +72,18 @@ public class ChatController {
     public ResponseEntity<String> deleteChat(@PathVariable Long chatId) {
         chatService.deleteChat(chatId);
         return ResponseEntity.status(HttpStatus.OK).body("성공적으로 삭제되었습니다.");
+    }
+
+
+    //조회수 증가
+    @PostMapping(value = "/chat/views/{chatId}")
+    public viewsResponseDTO updateViews (@PathVariable Long chatId) {
+        return chatService.updateViews(chatId);
+    }
+
+    //조회수 조회
+    @GetMapping(value = "chat/views/{chatId}")
+    public viewsResponseDTO getViews(@PathVariable Long chatId) {
+        return chatService.getViews(chatId);
     }
 }
