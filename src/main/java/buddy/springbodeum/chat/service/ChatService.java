@@ -3,6 +3,8 @@ package buddy.springbodeum.chat.service;
 import buddy.springbodeum.chat.ChatRepository;
 import buddy.springbodeum.chat.data.Chat;
 import buddy.springbodeum.chat.dto.CommunityResponseDTO;
+import buddy.springbodeum.chat.dto.updateViewsResponseDTO;
+import buddy.springbodeum.user.data.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,5 +49,19 @@ public class ChatService {
 
     public void deleteChat(Long chatId) {
         chatRepository.deleteById(chatId);
+    }
+
+    public updateViewsResponseDTO updateViews(Long chatId) {
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new RuntimeException(chatId + " 채팅을 찾을 수 없습니다."));
+
+        // 조회수 증가
+        chat.setViews(chat.getViews() + 1);
+
+        // 변경 사항 저장
+        chatRepository.save(chat);
+
+        // 응답 DTO 생성
+        return new updateViewsResponseDTO(chat.getId(), chat.getViews());
     }
 }

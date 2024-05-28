@@ -76,7 +76,7 @@ public class ChatController {
 
 
     @PostMapping(value = "/chat/views/{chatId}")
-    public void updateViews (@PathVariable Long chatId) {
-
+    public updateViewsResponseDTO updateViews (@PathVariable Long chatId) {
+        return chatService.updateViews(chatId);
     }
 }
