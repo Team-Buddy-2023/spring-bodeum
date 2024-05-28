@@ -75,8 +75,15 @@ public class ChatController {
     }
 
 
+    //조회수 증가
     @PostMapping(value = "/chat/views/{chatId}")
-    public updateViewsResponseDTO updateViews (@PathVariable Long chatId) {
+    public viewsResponseDTO updateViews (@PathVariable Long chatId) {
         return chatService.updateViews(chatId);
+    }
+
+    //조회수 조회
+    @GetMapping(value = "chat/views/{chatId}")
+    public viewsResponseDTO getViews(@PathVariable Long chatId) {
+        return chatService.getViews(chatId);
     }
 }
