@@ -18,8 +18,9 @@ public class CommunityResponseDTO {
 
     private String answer;
     private Integer views;
+    private String imageURL;
 
-    public CommunityResponseDTO(Long chatId, Long userId, String nickname, String comment, String fluffyName, LocalDateTime dateTime, String answer, Integer views) {
+    public CommunityResponseDTO(Long chatId, Long userId, String nickname, String comment, String fluffyName, LocalDateTime dateTime, String answer, Integer views, String imageURL) {
         this.chatId = chatId;
         this.userId = userId;
         this.nickname = nickname;
@@ -28,5 +29,6 @@ public class CommunityResponseDTO {
         this.dateTime = dateTime;
         this.answer = answer;
         this.views = views;
+        this.imageURL = imageURL;
     }
 }
