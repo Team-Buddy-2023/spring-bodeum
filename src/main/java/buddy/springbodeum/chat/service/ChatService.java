@@ -39,7 +39,8 @@ public class ChatService {
             LocalDateTime dateTime = chat.getDateTime();
             String answer = chat.getAnswer();
             Integer views = chat.getViews();
-            CommunityResponseDTO communityResponseDTO = new CommunityResponseDTO(chatId, userId, nickname, comment, fluffyName, dateTime, answer, views);
+            String imageURL = chat.getUser().getImageURL();
+            CommunityResponseDTO communityResponseDTO = new CommunityResponseDTO(chatId, userId, nickname, comment, fluffyName, dateTime, answer, views, imageURL);
             communityResponseList.add(communityResponseDTO);
         }
 
