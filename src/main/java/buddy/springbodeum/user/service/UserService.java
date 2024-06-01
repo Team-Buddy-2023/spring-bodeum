@@ -64,7 +64,7 @@ public class UserService {
         // 1에서 5까지의 랜덤한 숫자 생성
         int randomNumber = new Random().nextInt(5) + 1;
 
-        return s3BaseURL + "IMG_" + randomNumber + ".PNG";
+        return s3BaseURL + randomNumber + ".png";
     }
 
     private String getRandomNickName() {
