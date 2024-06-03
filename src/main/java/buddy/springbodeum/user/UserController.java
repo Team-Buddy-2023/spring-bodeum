@@ -35,6 +35,11 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/check")
+    public String check() {
+        return "OK";
+    }
+
     @RequestMapping(value="/kakao/login", method= RequestMethod.GET)
     public String kakaoLogin() {
         String kakaoLoginURL = kakaoService.getKakaoLogin();
