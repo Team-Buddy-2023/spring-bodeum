@@ -35,8 +35,8 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/check")
-    public String check() {
+    @GetMapping("/healthcheck")
+    public String healthcheck() {
         return "OK";
     }
 
