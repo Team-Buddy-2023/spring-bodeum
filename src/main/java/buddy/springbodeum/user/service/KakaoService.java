@@ -145,7 +145,7 @@ public class KakaoService {
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(accessTokenResponse.getBody()).getAsJsonObject();
 
-        String refresh_token = jsonObject.get("refresh_token").getAsString();
+//        String refresh_token = jsonObject.get("refresh_token").getAsString();
 
         return jsonObject.get("access_token").getAsString();
     }
