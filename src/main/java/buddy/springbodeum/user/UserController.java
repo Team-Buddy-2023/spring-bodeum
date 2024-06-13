@@ -94,14 +94,14 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId, HttpSession session) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId, String token) {
         try {
-            deleteUserAndInvalidateSession(userId, session);
+            deleteUserAndInvalidateSession(userId, token);
             return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
         } catch (DataIntegrityViolationException e) {
             // 외래 키 제약 조건 위배로 인한 예외 처리
             deleteChatsByUserId(userId);
-            deleteUserAndInvalidateSession(userId, session);
+            deleteUserAndInvalidateSession(userId, token);
             return ResponseEntity.ok("사용자와 관련된 모든 채팅과 함께 사용자가 성공적으로 삭제되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -109,12 +109,12 @@ public class UserController {
         }
     }
 
-    private void deleteUserAndInvalidateSession(Long userId, HttpSession session) {
+    private void deleteUserAndInvalidateSession(Long userId, String token) {
         userService.deleteUser(userId);
-        String token = (String) session.getAttribute("token");
+//        String token = (String) session.getAttribute("token");
         System.out.println("토큰 : " + token);
         kakaoService.kakaoLogoutUnlink(token, "https://kapi.kakao.com/v1/user/unlink");
-        session.invalidate();
+//        session.invalidate();
     }
 
     private void deleteChatsByUserId(Long userId) {
