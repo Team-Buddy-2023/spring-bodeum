@@ -13,8 +13,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -60,17 +58,26 @@ public class UserController {
         return new BaseResponse<>(userLoginResponseDTO.getStatus(), "요청 성공했습니다.", userLoginResponseDTO);
     }
 
-    @RequestMapping(value="/kakao/logout")
-    public BaseResponse<String> logout(HttpSession session) {
-        String accessToken = (String)session.getAttribute("token");
+//    @RequestMapping(value="/kakao/logout", method = RequestMethod.GET)
+//    public BaseResponse<String> logout(String token) { // 카카오 로그아웃 - 액세스 토큰 방식
+////        String accessToken = (String)session.getAttribute("token");
+//        if(token != null && !"".equals(token)){
+//            kakaoService.kakaoLogoutUnlink(token, "https://kapi.kakao.com/v1/user/logout");
+//            return new BaseResponse<>(HttpStatus.OK, "로그아웃에 성공했습니다.");
+//        } else{
+//            System.out.println("액세스 토큰이 비어있습니다.");
+//            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "로그아웃에 실패했습니다.");
+//        }
+//    }
 
-        if(accessToken != null && !"".equals(accessToken)){
-            kakaoService.kakaoLogoutUnlink(accessToken, "https://kapi.kakao.com/v1/user/logout");
-            session.removeAttribute("access_Token");
-            session.removeAttribute("userId");
+    @RequestMapping(value="/kakao/logout/{userId}", method = RequestMethod.GET)
+    public BaseResponse<String> logout(@PathVariable Long userId) { // 카카오 로그아웃 - 서비스 앱 어드민 키 방식
+        Optional<User> user = userRepository.findByUserId(userId);
+        if (user.isPresent()) {
+            kakaoService.kakaoLogoutUnlink(user.get().getKakaoId(), "https://kapi.kakao.com/v1/user/logout");
             return new BaseResponse<>(HttpStatus.OK, "로그아웃에 성공했습니다.");
-        } else{
-            System.out.println("액세스 토큰이 비어있습니다.");
+        } else {
+            System.out.println(userId + "에 해당하는 사용자를 찾을 수 없습니다.");
             return new BaseResponse<>(HttpStatus.BAD_REQUEST, "로그아웃에 실패했습니다.");
         }
     }
@@ -93,38 +100,68 @@ public class UserController {
         return ResponseEntity.ok("사용자 정보가 성공적으로 수정되었습니다.");
     }
 
+//    @DeleteMapping("/delete/{userId}")
+//    public ResponseEntity<String> deleteUser(@PathVariable Long userId, String token) { // 카카오 회원탈퇴 (연결끊기) - 액새스 토큰 방식
+//        try {
+//            deleteUserAndInvalidateSession(userId, token);
+//            return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
+//        } catch (DataIntegrityViolationException e) {
+//            // 외래 키 제약 조건 위배로 인한 예외 처리
+//            deleteChatsByUserId(userId);
+//            deleteUserAndInvalidateSession(userId, token);
+//            return ResponseEntity.ok("사용자와 관련된 모든 채팅과 함께 사용자가 성공적으로 삭제되었습니다.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("사용자 삭제 중 오류가 발생했습니다.");
+//        }
+//    }
+
+//    private void deleteUserAndInvalidateSession(Long userId, String token) {
+//        userService.deleteUser(userId);
+////        String token = (String) session.getAttribute("token");
+//        kakaoService.kakaoLogoutUnlink(token, "https://kapi.kakao.com/v1/user/unlink");
+////        session.invalidate();
+//    }
+//
+//    private void deleteChatsByUserId(Long userId) {
+//        Optional<User> optionalUser = userRepository.findByUserId(userId);
+//        if (optionalUser.isPresent()) {
+//            List<Chat> chats = chatRepository.findByUser(optionalUser.get());
+//            chatRepository.deleteAll(chats);
+//        } else {
+//            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. userId: " + userId);
+//        }
+//    }
+
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId, String token) {
+    public BaseResponse<String> deleteUser(@PathVariable Long userId) { // 카카오 회원탈퇴 (연결끊기) - 서비스 앱 어드민 키 방식
+        Optional<User> user = userRepository.findByUserId(userId);
+        if (user.isEmpty()) {
+            System.out.println(userId + "에 해당하는 사용자를 찾을 수 없습니다.");
+            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "사용자를 찾을 수 없습니다.");
+        }
+
         try {
-            deleteUserAndInvalidateSession(userId, token);
-            return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
+            deleteUserAndUnlink(user.get());
+            return new BaseResponse<>(HttpStatus.OK, "사용자가 성공적으로 삭제되었습니다.");
         } catch (DataIntegrityViolationException e) {
             // 외래 키 제약 조건 위배로 인한 예외 처리
-            deleteChatsByUserId(userId);
-            deleteUserAndInvalidateSession(userId, token);
-            return ResponseEntity.ok("사용자와 관련된 모든 채팅과 함께 사용자가 성공적으로 삭제되었습니다.");
+            deleteChats(user.get());
+            deleteUserAndUnlink(user.get());
+            return new BaseResponse<>(HttpStatus.OK, "사용자와 관련된 모든 채팅과 함께 사용자가 성공적으로 삭제되었습니다.");
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("사용자 삭제 중 오류가 발생했습니다.");
+            return new BaseResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "사용자 삭제 중 오류가 발생했습니다.");
         }
     }
 
-    private void deleteUserAndInvalidateSession(Long userId, String token) {
-        userService.deleteUser(userId);
-//        String token = (String) session.getAttribute("token");
-        System.out.println("토큰 : " + token);
-        kakaoService.kakaoLogoutUnlink(token, "https://kapi.kakao.com/v1/user/unlink");
-//        session.invalidate();
+    private void deleteUserAndUnlink(User user) {
+        userService.deleteUser(user.getUserId());
+        kakaoService.kakaoLogoutUnlink(user.getKakaoId(), "https://kapi.kakao.com/v1/user/unlink");
     }
 
-    private void deleteChatsByUserId(Long userId) {
-        Optional<User> optionalUser = userRepository.findByUserId(userId);
-        if (optionalUser.isPresent()) {
-            List<Chat> chats = chatRepository.findByUser(optionalUser.get());
-            chatRepository.deleteAll(chats);
-        } else {
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. userId: " + userId);
-        }
+    private void deleteChats(User user) {
+        List<Chat> chats = chatRepository.findByUser(user);
+        chatRepository.deleteAll(chats);
     }
-
 }
