@@ -111,7 +111,9 @@ public class UserController {
 
     private void deleteUserAndInvalidateSession(Long userId, HttpSession session) {
         userService.deleteUser(userId);
-        kakaoService.kakaoLogoutUnlink((String) session.getAttribute("token"), "https://kapi.kakao.com/v1/user/unlink");
+        String token = (String) session.getAttribute("token");
+        System.out.println("토큰 : " + token);
+        kakaoService.kakaoLogoutUnlink(token, "https://kapi.kakao.com/v1/user/unlink");
         session.invalidate();
     }
 
