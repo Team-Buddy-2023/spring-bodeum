@@ -51,6 +51,7 @@ public class UserController {
     public BaseResponse<UserLoginResponseDTO> kakaoCallback(@RequestParam("code") String code) {
         System.out.println("인가코드 : " + code);
         String accessToken = kakaoService.getKakaoAccessToken(code);
+        System.out.println("액세스 토큰 : " + accessToken);
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
 
         User user = userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("email")); //회원가입
