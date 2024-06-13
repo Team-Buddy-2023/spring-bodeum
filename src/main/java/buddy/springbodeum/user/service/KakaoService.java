@@ -111,7 +111,7 @@ public class KakaoService {
 //        return access_Token;
 //    }
 
-//    @Transactional
+    //    @Transactional
     public String getKakaoAccessToken(String code) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -205,8 +205,7 @@ public class KakaoService {
         return new UserLoginResponseDTO(HttpStatus.OK, token, userId, user.getNickname(), user.getImageURL());
     }
 
-    public void kakaoLogout(String accessToken) {
-        String reqURL = "https://kapi.kakao.com/v1/user/logout";
+    public void kakaoLogoutUnlink(String accessToken, String reqURL) {
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -218,15 +217,15 @@ public class KakaoService {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            String result = "";
+            StringBuilder result = new StringBuilder();
             String line = "";
 
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
             System.out.println(result);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            System.err.println(e.getMessage());
             e.printStackTrace();
         }
     }

@@ -50,9 +50,7 @@ public class UserController {
     @RequestMapping(value = "/oauth/callback/kakao", method = RequestMethod.GET)
     public BaseResponse<UserLoginResponseDTO> kakaoCallback(@RequestParam("code") String code) {
         System.out.println("인가코드 : " + code);
-
         String accessToken = kakaoService.getKakaoAccessToken(code);
-        System.out.println("카카오 액세스 토큰 : " + accessToken);
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
 
         User user = userService.kakaoLogin((String) userInfo.get("kakaoId"), (String) userInfo.get("email")); //회원가입
@@ -62,17 +60,18 @@ public class UserController {
     }
 
     @RequestMapping(value="/kakao/logout")
-    public String logout(HttpSession session) {
-        String access_Token = (String)session.getAttribute("access_Token");
+    public BaseResponse<String> logout(HttpSession session) {
+        String accessToken = (String)session.getAttribute("token");
 
-        if(access_Token != null && !"".equals(access_Token)){
-            kakaoService.kakaoLogout(access_Token);
+        if(accessToken != null && !"".equals(accessToken)){
+            kakaoService.kakaoLogoutUnlink(accessToken, "https://kapi.kakao.com/v1/user/logout");
             session.removeAttribute("access_Token");
             session.removeAttribute("userId");
+            return new BaseResponse<>(HttpStatus.OK, "로그아웃에 성공했습니다.");
         } else{
-            System.out.println("access_Token is null");
+            System.out.println("액세스 토큰이 비어있습니다.");
+            return new BaseResponse<>(HttpStatus.BAD_REQUEST, "로그아웃에 실패했습니다.");
         }
-        return "redirect:/";
     }
 
     @RequestMapping(value="/{userId}", method= RequestMethod.GET)
@@ -94,19 +93,25 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId, HttpSession session) {
         try {
-            userService.deleteUser(userId);
+            deleteUserAndInvalidateSession(userId, session);
             return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
         } catch (DataIntegrityViolationException e) {
             // 외래 키 제약 조건 위배로 인한 예외 처리
             deleteChatsByUserId(userId);
-            userService.deleteUser(userId);
+            deleteUserAndInvalidateSession(userId, session);
             return ResponseEntity.ok("사용자와 관련된 모든 채팅과 함께 사용자가 성공적으로 삭제되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("사용자 삭제 중 오류가 발생했습니다.");
         }
+    }
+
+    private void deleteUserAndInvalidateSession(Long userId, HttpSession session) {
+        userService.deleteUser(userId);
+        kakaoService.kakaoLogoutUnlink((String) session.getAttribute("token"), "https://kapi.kakao.com/v1/user/unlink");
+        session.invalidate();
     }
 
     private void deleteChatsByUserId(Long userId) {
