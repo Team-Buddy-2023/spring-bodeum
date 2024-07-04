@@ -64,8 +64,8 @@ public class ChatController {
     }
 
     @GetMapping(value = "/chat/community")
-    public List<CommunityResponseDTO> getCommunityChatList() {
-        return chatService.getCommunityChatList();
+    public PagedCommunityResponseDTO getCommunityChatList(@RequestParam int limit, @RequestParam int page) {
+        return chatService.getCommunityChatList(limit, page);
     }
 
     @DeleteMapping(value = "/chat/{chatId}")
