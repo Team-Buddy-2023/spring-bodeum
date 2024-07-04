@@ -3,7 +3,11 @@ package buddy.springbodeum.chat.service;
 import buddy.springbodeum.chat.ChatRepository;
 import buddy.springbodeum.chat.data.Chat;
 import buddy.springbodeum.chat.dto.CommunityResponseDTO;
+import buddy.springbodeum.chat.dto.PagedCommunityResponseDTO;
 import buddy.springbodeum.chat.dto.viewsResponseDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,11 +29,36 @@ public class ChatService {
         chatRepository.save(chat);
     }
 
-    public List<CommunityResponseDTO> getCommunityChatList() {
-        List<Chat> chats = chatRepository.findAll();
+//    public List<CommunityResponseDTO> getCommunityChatList(int limit, int page) {
+//        List<Chat> chats = chatRepository.findAll();
+//
+//        List<CommunityResponseDTO> communityResponseList = new ArrayList<>();
+//
+//        for (Chat chat : chats) {
+//            Long chatId = chat.getId();
+//            Long userId = chat.getUser().getUserId();
+//            String nickname = chat.getUser().getNickname();
+//            String comment = chat.getComment();
+//            String fluffyName = chat.getFluffy().getName();
+//            LocalDateTime dateTime = chat.getDateTime();
+//            String answer = chat.getAnswer();
+//            Integer views = chat.getViews();
+//            String imageURL = chat.getUser().getImageURL();
+//            CommunityResponseDTO communityResponseDTO = new CommunityResponseDTO(chatId, userId, nickname, comment, fluffyName, dateTime, answer, views, imageURL);
+//            communityResponseList.add(communityResponseDTO);
+//        }
+//
+//        return communityResponseList;
+//    }
+
+    public PagedCommunityResponseDTO getCommunityChatList(int limit, int page) {
+        Pageable pageable = PageRequest.of(page - 1, limit); // PageRequest는 0부터 시작
+        Page<Chat> chatPage = chatRepository.findAll(pageable);
+
+        List<Chat> chats = chatPage.getContent();
+        long totalChats = chatPage.getTotalElements();
 
         List<CommunityResponseDTO> communityResponseList = new ArrayList<>();
-
         for (Chat chat : chats) {
             Long chatId = chat.getId();
             Long userId = chat.getUser().getUserId();
@@ -44,7 +73,7 @@ public class ChatService {
             communityResponseList.add(communityResponseDTO);
         }
 
-        return communityResponseList;
+        return new PagedCommunityResponseDTO(communityResponseList, totalChats);
     }
 
     public void deleteChat(Long chatId) {
